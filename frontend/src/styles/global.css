@@ -1,0 +1,116 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #F7F6FB;
+}
+
+/* Smooth transitions for theme changes */
+.MuiPaper-root, .MuiCard-root, .MuiAppBar-root {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #94A3B8;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748B;
+}
+
+/* Improve card hover effect */
+.MuiCard-root:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1) !important;
+  transition: all 0.3s ease;
+}
+
+/* NEW: table row interaction polish, applied globally so every page's
+   table (Clients, Orders, Payments, Expenses, Schedule, ...) gets it at
+   once - a subtle lift + shadow + left accent bar on hover, consistent
+   with the "raised 3D" language used for cards and sidebar buttons
+   elsewhere, instead of a flat default MUI hover background swap. */
+.MuiTableBody-root .MuiTableRow-root {
+  position: relative;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+.MuiTableBody-root .MuiTableRow-root:hover {
+  transform: translateX(2px);
+  background-color: rgba(181, 72, 42, 0.04);
+  box-shadow: -3px 0 0 0 #4F3CC9, 0 4px 10px -6px rgba(31, 27, 46, 0.25);
+}
+
+/* Make buttons slightly rounded and smooth */
+.MuiButton-root {
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Table header styling */
+.MuiTableHead-root .MuiTableCell-root {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: #64748B;
+}
+
+/* ===================== NEW: design + touch polish ===================== */
+html { -webkit-tap-highlight-color: transparent; scroll-behavior: smooth; }
+body { overscroll-behavior-y: none; }
+
+/* Route change: a soft rise-and-fade instead of a hard swap. */
+@keyframes ssPageIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.ss-page { animation: ssPageIn .32s cubic-bezier(.22,.9,.3,1) both; }
+
+/* Status pill slides in from under the app bar. */
+@keyframes ssPillIn { from { opacity: 0; transform: translate(-50%, -12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+.ss-pill-in { animation: ssPillIn .3s ease both; }
+
+/* Hover lift only where a real hover exists - on touch screens the old
+   rule left cards stuck "raised" after every tap. */
+.MuiCard-root:hover { transform: none; box-shadow: inherit !important; }
+@media (hover: hover) and (pointer: fine) {
+  .MuiCard-root:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -8px rgba(181, 72, 42,0.28) !important; }
+}
+
+/* Keyboard focus that is actually visible. */
+:focus-visible { outline: 3px solid rgba(124,92,255,0.65); outline-offset: 2px; border-radius: 6px; }
+
+/* Comfortable tap targets on phones + notch/gesture-bar safe areas. */
+@media (pointer: coarse) {
+  .MuiIconButton-root { min-width: 44px; min-height: 44px; }
+  .MuiButton-root, .MuiChip-clickable { min-height: 40px; }
+  .MuiListItemButton-root, .MuiMenuItem-root { min-height: 48px; }
+}
+@supports (padding: max(0px)) {
+  .MuiAppBar-root { padding-top: env(safe-area-inset-top, 0px); }
+}
+
+/* Dark mode: keep the page background in step with the theme. */
+@media (prefers-color-scheme: dark) { html { color-scheme: dark light; } }
+
+/* Respect "reduce motion". */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}
+
+/* Printing a page (reports etc.): drop navigation chrome. */
+@media print {
+  .MuiAppBar-root, .MuiDrawer-root, .ss-pill-in { display: none !important; }
+  main { padding: 0 !important; width: 100% !important; }
+}

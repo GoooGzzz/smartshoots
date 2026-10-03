@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      NEW: this file didn't exist at all, even though styles.xml
+      references @color/colorPrimary / colorPrimaryDark / colorAccent.
+      App-module resources always take priority over any
+      library/dependency-provided defaults during Android's resource
+      merge, so this is the correct, safe place to define the app's real
+      brand colors rather than relying on whatever fallback the build
+      happened to be inheriting.
+
+      Same indigo/amber palette used everywhere else in the app
+      (DashboardShell.tsx, theme.ts) so the native chrome (status bar,
+      splash background) actually matches the web UI instead of using
+      Android's default teal/purple placeholder colors.
+    -->
+    <color name="colorPrimary">#4F3CC9</color>
+    <color name="colorPrimaryDark">#2C2170</color>
+    <color name="colorAccent">#F5A524</color>
+    <color name="statusBarColor">#372A94</color>
+    <color name="splashBackground">#4F3CC9</color>
+</resources>

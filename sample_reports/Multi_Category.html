@@ -1,0 +1,365 @@
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    hub: {
+                        50: '#f8fafc',
+                        100: '#f1f5f9',
+                        500: '#0ea5e9',
+                        600: '#0284c7',
+                        700: '#0369a1',
+                        800: '#075985',
+                        900: '#0c4a6e',
+                    }
+                },
+                fontFamily: {
+                    cairo: ['Cairo', 'sans-serif'],
+                    inter: ['Inter', 'sans-serif']
+                }
+            }
+        }
+    }
+</script>
+<style>
+    body {
+        font-family: 'Cairo', 'Inter', sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+    }
+    .master-gradient {
+        background: linear-gradient(135deg, #0c4a6e 0%, #0369a1 50%, #0ea5e9 100%);
+    }
+    .card-shadow {
+        box-shadow: 0 10px 30px -5px rgba(2, 132, 199, 0.08), 0 8px 10px -6px rgba(7, 89, 133, 0.05);
+    }
+    .tab-active {
+        border-bottom: 3px solid #0ea5e9;
+        color: #0ea5e9;
+        font-weight: 700;
+        background-color: #f0f9ff;
+    }
+    .glass-card {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+</style>
+
+
+<header class="master-gradient text-white shadow-xl sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="flex items-center space-x-3 space-x-reverse">
+            <div class="bg-white p-3 rounded-2xl shadow-lg text-sky-900 flex items-center justify-center transform hover:scale-105 transition-all">
+                <i class="fa-solid fa-layer-group text-2xl text-sky-600"></i>
+            </div>
+            <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                    <h1 class="text-2xl font-black tracking-wide">منصة الاعتماد الاستراتيجي الموحدة</h1>
+                    <span class="bg-sky-400/20 text-sky-100 text-xs px-3 py-0.5 rounded-full border border-sky-300/30 font-semibold">إصدار كافة القطاعات (Class B & C)</span>
+                </div>
+                <p class="text-xs text-sky-100 opacity-90">تقرير إعادة الهيكلة والتطوير والتمركز السوقي السريع</p>
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+            <button onclick="window.print()" class="bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all flex items-center gap-2 backdrop-blur-sm cursor-pointer">
+                <i class="fa-solid fa-print"></i> طباعة / حفظ PDF
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation Bar for All Categories -->
+<nav class="bg-white border-b border-slate-200 shadow-sm sticky top-[76px] z-40 overflow-x-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-2 space-x-reverse whitespace-nowrap text-sm font-medium py-2.5">
+        <button onclick="switchCategory('doctors')" id="btn-doctors" class="tab-active px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-stethoscope text-sky-600"></i> 1. العيادات والأطباء
+        </button>
+        <button onclick="switchCategory('labs')" id="btn-labs" class="text-slate-600 hover:text-sky-600 hover:bg-slate-50 px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-flask text-sky-600"></i> 2. المعامل الطبية
+        </button>
+        <button onclick="switchCategory('professors')" id="btn-professors" class="text-slate-600 hover:text-sky-600 hover:bg-slate-50 px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-graduation-cap text-sky-600"></i> 3. الأساتذة والمدرسين
+        </button>
+        <button onclick="switchCategory('coffee')" id="btn-coffee" class="text-slate-600 hover:text-sky-600 hover:bg-slate-50 px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-mug-hot text-sky-600"></i> 4. المقاهي (Coffee Shops)
+        </button>
+        <button onclick="switchCategory('restaurants')" id="btn-restaurants" class="text-slate-600 hover:text-sky-600 hover:bg-slate-50 px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-utensils text-sky-600"></i> 5. المطاعم
+        </button>
+        <button onclick="switchCategory('pharmacies')" id="btn-pharmacies" class="text-slate-600 hover:text-sky-600 hover:bg-slate-50 px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-pills text-sky-600"></i> 6. الصيدليات
+        </button>
+        <button onclick="switchCategory('bakery')" id="btn-bakery" class="text-slate-600 hover:text-sky-600 hover:bg-slate-50 px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-bread-slice text-sky-600"></i> 7. المخبوزات والحلويات
+        </button>
+        <button onclick="switchCategory('cars')" id="btn-cars" class="text-slate-600 hover:text-sky-600 hover:bg-slate-50 px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-car text-sky-600"></i> 8. معرض السيارات
+        </button>
+    </div>
+</nav>
+
+<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-8">
+
+    <!-- ================= CATEGORY 1: DOCTORS & CLINICS ================= -->
+    <section id="cat-doctors" class="space-y-6 animate-fadeIn">
+        <div class="glass-card rounded-3xl p-8 card-shadow border border-slate-100">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-sky-50 text-sky-600 p-3 rounded-2xl text-xl font-bold"><i class="fa-solid fa-stethoscope"></i></span>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">ألفا كلينك | العيادات الطبية الاستشارية</h2>
+                    <p class="text-slate-500 text-sm">استراتيجية التمركز للطبقات (B & C) مع التركيز على نخبة الأطباء والكشف الإنساني</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">رؤية البراند</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">توفير رعاية استشارية رفيعة المستوى بأسعار اقتصادية تقضي على جشع المستشفيات الاستثمارية.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">الباقات المقترحة</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">باقات الكشف العائلي، متابعة الأطفال الشهرية، وكشوفات كبار السن مع استشارات مجانية هاتفياً.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">سرعة الدعم والتواصل</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">حجز مواعيد فورية عبر الواتساب مع رسائل تذكير آلية لتقليل التكدس في صالة الانتظار.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CATEGORY 2: LABORATORIES ================= -->
+    <section id="cat-labs" class="space-y-6 hidden animate-fadeIn">
+        <div class="glass-card rounded-3xl p-8 card-shadow border border-slate-100">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-sky-50 text-sky-600 p-3 rounded-2xl text-xl font-bold"><i class="fa-solid fa-flask"></i></span>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">ألفا لاب | المعامل الطبية والتحاليل الدقيقة</h2>
+                    <p class="text-slate-500 text-sm">سرعة النتائج، الدقة المخبرية العالية، وخدمة سحب العينات المنزلية المجانية</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">رؤية البراند</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">معمل "ألفا لاب".. دقة نتائج معتمدة وبأسعار في متناول العائلة مع ضمان راحة المريض.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">الباقات المقترحة</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">باقة الفحص الشامل السنوي، باقة الاطمئنان على السكر والضغط، وتحاليل الأطفال الأساسية.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">سرعة الدعم والتواصل</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">إرسال النتائج عبر الواتساب خلال ساعات، وطلب زيارة الممرض المنزلي بضغطة زر.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CATEGORY 3: PROFESSORS & TEACHERS ================= -->
+    <section id="cat-professors" class="space-y-6 hidden animate-fadeIn">
+        <div class="glass-card rounded-3xl p-8 card-shadow border border-slate-100">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-sky-50 text-sky-600 p-3 rounded-2xl text-xl font-bold"><i class="fa-solid fa-graduation-cap"></i></span>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">أكاديمية المتفوقين | مركز الدروس والسنتر التعليمي</h2>
+                    <p class="text-slate-500 text-sm">نخبة المعلمين، تبسيط المناهج الصعبة، والمتابعة الدورية لمستوى الطلاب مع أولياء الأمور</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">رؤية البراند</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">"تعليم بضمير وفهم حقيقي".. بناء جيل متفوق بأسعار ميسرة للطبقة المتوسطة ودون مغالاة.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">الباقات المقترحة</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">باقة المراجعة النهائية الشهرية، اشتراك المواد العلمية المتكاملة، ومجموعات التقوية المخفضة.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">سرعة الدعم والتواصل</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">تقارير أسبوعية مصورة لمستوى الطالب ترسل لولي الأمر عبر الواتساب وحجز الحصص أونلاين.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CATEGORY 4: COFFEE SHOPS ================= -->
+    <section id="cat-coffee" class="space-y-6 hidden animate-fadeIn">
+        <div class="glass-card rounded-3xl p-8 card-shadow border border-slate-100">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-sky-50 text-sky-600 p-3 rounded-2xl text-xl font-bold"><i class="fa-solid fa-mug-hot"></i></span>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">أروما كافيه | مقهى ومحمصة الأجواء الراقية</h2>
+                    <p class="text-slate-500 text-sm">بن فاخر، جلسات هادئة للعمل والدراسة، وخدمة سريعة لا تتخطى دقائق معدودة</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">رؤية البراند</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">"كوب القهوة المثالي في متناول الجميع".. طعم ينافس البراندات العالمية وبأسعار محلية عادلة.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">الباقات المقترحة</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">باقة اشتراك الصباح (قهوة + معجنات)، باقة العمل المكتبي غير المحدود، وعروض الكافيه العائلية.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">سرعة الدعم والتواصل</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">تطبيق مصغر للطلب المسبق وتجهيز الطلب قبل وصول الزبون لتفادي الانتظار نهائياً.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CATEGORY 5: RESTAURANTS ================= -->
+    <section id="cat-restaurants" class="space-y-6 hidden animate-fadeIn">
+        <div class="glass-card rounded-3xl p-8 card-shadow border border-slate-100">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-sky-50 text-sky-600 p-3 rounded-2xl text-xl font-bold"><i class="fa-solid fa-utensils"></i></span>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">مطعم وكباتن المذاق | أكلات شرقية وغربية عائلية</h2>
+                    <p class="text-slate-500 text-sm">نظافة تامة، طازج يومياً، وجبات مشبعة للأسرة بأسعار اقتصادية منافسة</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">رؤية البراند</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">"طبيخ البيت بنكهة المطاعم الفاخرة".. إشباع العائلة المصرية بأعلى معايير الجودة والنظافة.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">الباقات المقترحة</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">صواني العزومات العائلية المتكاملة، وجبات الأفراد السريعة، وعروض الويك إند الاقتصادية.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">سرعة الدعم والتواصل</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">خط ساخن دائم للشكاوى والطلبات السريعة، وتوصيل ساخن في أسرع وقت داخل نطاق الحي.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CATEGORY 6: PHARMACIES ================= -->
+    <section id="cat-pharmacies" class="space-y-6 hidden animate-fadeIn">
+        <div class="glass-card rounded-3xl p-8 card-shadow border border-slate-100">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-sky-50 text-sky-600 p-3 rounded-2xl text-xl font-bold"><i class="fa-solid fa-pills"></i></span>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">صيدليات الإسعاف السريع | رعاية دوائية متكاملة</h2>
+                    <p class="text-slate-500 text-sm">توافر جميع الأدوية، استشارات صيدلانية مجانية، وتوصيل منزلي سريع 24 ساعة</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">رؤية البراند</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">"دويك جنبك في أي وقت".. التزام بتوافر الأصناف الأصلية وعدم وجود نواقص مؤثرة.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">الباقات المقترحة</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">صندوق الإسعافات الأولية المنزلي، باقة الفيتامينات والمكملات الشهرية للأسرة بتخفيضات.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">سرعة الدعم والتواصل</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">إرسال صورة الروشتة عبر الواتساب لتجهيزها فوراً ووصولها للمنزل خلال دقائق.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CATEGORY 7: BAKERY SHOPS ================= -->
+    <section id="cat-bakery" class="space-y-6 hidden animate-fadeIn">
+        <div class="glass-card rounded-3xl p-8 card-shadow border border-slate-100">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-sky-50 text-sky-600 p-3 rounded-2xl text-xl font-bold"><i class="fa-solid fa-bread-slice"></i></span>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">المخبز الذهبي والحلويات | طازج يومياً</h2>
+                    <p class="text-slate-500 text-sm">مخبوزات ساخنة طوال اليوم، حلويات شرقية وغربية فاخرة بجودة تضاهي الكبار</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">رؤية البراند</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">"ريحة الخبيز الطازج كل صباح".. معايير نظافة صارمة ومذاق لا يُقاوم لكل أفراد العائلة.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">الباقات المقترحة</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">باقة فطار الصباح (مخبوزات متنوعة)، علب الهدايا والحلويات المشكلة للأعياد والمناسبات.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">سرعة الدعم والتواصل</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">حجز التورتات والأصناف الخاصة عبر الواتساب مع خدمة التوصيل السريع للمنازل.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CATEGORY 8: CARS DEALERS ================= -->
+    <section id="cat-cars" class="space-y-6 hidden animate-fadeIn">
+        <div class="glass-card rounded-3xl p-8 card-shadow border border-slate-100">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="bg-sky-50 text-sky-600 p-3 rounded-2xl text-xl font-bold"><i class="fa-solid fa-car"></i></span>
+                <div>
+                    <h2 class="text-2xl font-black text-slate-900">معرض النخبة للسيارات | شراء، بيع، وتسهيلات</h2>
+                    <p class="text-slate-500 text-sm">شفافية كاملة في حالة السيارات، تقسيط ميسر، ومعاينة فنية معتمدة لكل عربية</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 my-6">
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">رؤية البراند</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">"عربيتك الجديدة بأمان وثقة تامة".. مصداقية مطلقة وفحص شامل يغنيك عن أي قلق.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">الباقات المقترحة</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">برامج التقسيط المباشر بالتعاون مع البنوك، باقة الصيانة الأولى المجانية، وبدل الاستبدال السريع.</p>
+                </div>
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                    <div class="text-sky-600 font-bold mb-2">سرعة الدعم والتواصل</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">فيديوهات تفصيلية لحالة السيارات المعروضة عبر الواتساب والرد الفوري على كل الاستفسارات.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer class="bg-slate-900 text-white py-8 mt-12 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+        <div class="flex items-center gap-2">
+            <i class="fa-solid fa-layer-group text-sky-500"></i>
+            <span class="font-bold">منصة الاعتماد الاستراتيجي الموحدة لجميع القطاعات التجارية</span>
+        </div>
+        <p class="text-slate-400 text-xs">جميع الحقوق محفوظة © 2026 - جاهز للرفع والتشغيل الفوري.</p>
+    </div>
+</footer>
+
+<!-- Interactive Scripts -->
+<script>
+    const categories = ['doctors', 'labs', 'professors', 'coffee', 'restaurants', 'pharmacies', 'bakery', 'cars'];
+
+    function switchCategory(catId) {
+        categories.forEach(c => {
+            const section = document.getElementById(`cat-${c}`);
+            const btn = document.getElementById(`btn-${c}`);
+            if (c === catId) {
+                section.classList.remove('hidden');
+                btn.className = "tab-active px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer shadow-sm";
+            } else {
+                section.classList.add('hidden');
+                btn.className = "text-slate-600 hover:text-sky-600 hover:bg-slate-50 px-4 py-2 rounded-xl transition-all flex items-center gap-2 cursor-pointer";
+            }
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+</script>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- FIX: solid-color fallback (used by anything that can't render
+         the gradient drawable) - was plain white, now the brand indigo
+         instead of a blank/generic background. -->
+    <color name="ic_launcher_background">#4F3CC9</color>
+</resources>

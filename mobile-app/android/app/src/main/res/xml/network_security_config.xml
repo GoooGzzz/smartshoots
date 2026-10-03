@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  NEW: Capacitor's `server.cleartext: true` (capacitor.config.ts) only
+  covers how Capacitor itself loads the app's own bundled assets - it
+  does NOT grant the WebView permission to make plain HTTP network calls
+  to a different host. Since Android 9 (API 28), cleartext (non-HTTPS)
+  network traffic is blocked by default at the OS level for the whole
+  app. Without this file, every request from the app to the PC's LAN
+  server (http://192.168.x.x:8000 - there's no realistic way to get a
+  trusted HTTPS certificate for a private, user-typed LAN IP) would fail
+  silently with a network error, which is exactly the kind of
+  unexplained "data entry doesn't work" problem this project has
+  otherwise been hardened against. cleartextTrafficPermitted applies to
+  ALL domains here (not a fixed allowlist) because the server address is
+  something the user types into Settings per-device, not something known
+  at build time.
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

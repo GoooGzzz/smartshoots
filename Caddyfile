@@ -1,0 +1,7 @@
+{$DOMAIN} {
+	# Caddy gets and renews a real Let's Encrypt certificate for this
+	# domain automatically - no certbot, no manual renewal cron job.
+	# Requires the domain's DNS A record to already point at this
+	# server's IP before starting (see DEPLOY.md).
+	reverse_proxy backend:8000
+}

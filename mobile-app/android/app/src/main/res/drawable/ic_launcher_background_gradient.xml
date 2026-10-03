@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  NEW: replaces the flat placeholder white/default background with the
+  same indigo gradient used everywhere else in the app (login hero,
+  AppBar, PageTitle badges) so the home-screen icon actually looks like
+  it belongs to this app instead of a generic Capacitor default.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:type="radial"
+        android:gradientRadius="76dp"
+        android:centerX="0.35"
+        android:centerY="0.3"
+        android:startColor="#7C6AE8"
+        android:centerColor="#4F3CC9"
+        android:endColor="#2C2170" />
+</shape>

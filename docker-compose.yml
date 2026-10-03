@@ -1,0 +1,52 @@
+version: "3.8"
+
+# Two containers:
+#   backend - the same Django app the desktop/Android builds use, run
+#             via run_server.py (auto-migrate, auto-seed reference data,
+#             auto-create the first admin account - identical behavior
+#             to a fresh Windows install).
+#   caddy   - reverse proxy that gets you a real, trusted HTTPS
+#             certificate automatically (via Let's Encrypt) for whatever
+#             domain you point at this server - no manual certbot/nginx
+#             config needed. This is the ONLY container with a port
+#             published to the outside world; the backend is only
+#             reachable from caddy, over the private docker network.
+services:
+  backend:
+    build: .
+    restart: unless-stopped
+    environment:
+      SMARTSHOOTS_HOST: "0.0.0.0"
+      SMARTSHOOTS_PORT: "8000"
+      SMARTSHOOTS_DEBUG: "False"
+      SMARTSHOOTS_BEHIND_PROXY: "True"
+      # Fill these in via a .env file (see .env.example) - do not commit
+      # real values.
+      SMARTSHOOTS_SECRET_KEY: "${SMARTSHOOTS_SECRET_KEY}"
+      SMARTSHOOTS_ALLOWED_HOSTS: "${DOMAIN}"
+      SMARTSHOOTS_CSRF_TRUSTED_ORIGINS: "https://${DOMAIN}"
+      SMARTSHOOTS_ADMIN_PASSWORD: "${SMARTSHOOTS_ADMIN_PASSWORD}"
+    volumes:
+      - smartshoots_data:/data
+    expose:
+      - "8000"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: "${DOMAIN}"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - backend
+
+volumes:
+  smartshoots_data:
+  caddy_data:
+  caddy_config:

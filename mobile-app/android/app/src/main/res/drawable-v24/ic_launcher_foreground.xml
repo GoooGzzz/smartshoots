@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  NEW: replaced the default Capacitor placeholder mark (a generic blue
+  chevron/arrow) with a camera glyph matching the CameraLogo used
+  throughout the web app (DashboardShell.tsx) - body + viewfinder bump +
+  a lens rendered as a genuine cutout (evenOdd fill rule) so the brand
+  gradient background shows through, giving a two-tone effect rather
+  than a flat silhouette. Kept within the ~66dp adaptive-icon safe zone
+  (centered in the 108x108 canvas) so it isn't clipped by whichever mask
+  shape a given Android launcher applies (circle, squircle, rounded
+  square, etc.).
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportHeight="108"
+    android:viewportWidth="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="
+            M32,38 L76,38 A10,10 0 0 1 86,48 L86,70 A10,10 0 0 1 76,80 L32,80 A10,10 0 0 1 22,70 L22,48 A10,10 0 0 1 32,38 Z
+            M48,26 L60,26 A4,4 0 0 1 64,30 L64,36 A4,4 0 0 1 60,40 L48,40 A4,4 0 0 1 44,36 L44,30 A4,4 0 0 1 48,26 Z
+            M37,59 A17,17 0 1 0 71,59 A17,17 0 1 0 37,59 Z
+            M68,32 A4,4 0 1 0 76,32 A4,4 0 0 0 68,32 Z" />
+</vector>
