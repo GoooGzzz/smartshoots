@@ -7,8 +7,16 @@
 // one-time setup step per device rather than a rebuild.
 const KEY = 'smartshoots_server_url';
 
+// Build-time default backend address (used by the Cloudflare web build, where
+// there is no same-origin Django server). Set VITE_API_URL in the Cloudflare
+// build variables, e.g. https://api.yourdomain.com  (no trailing /api).
+// A value saved in Settings on the device still takes priority.
+const ENV_SERVER_URL: string = ((import.meta.env.VITE_API_URL as string | undefined) || '')
+  .trim()
+  .replace(/\/+$/, '');
+
 export function getServerUrl(): string {
-  return localStorage.getItem(KEY) || '';
+  return localStorage.getItem(KEY) || ENV_SERVER_URL;
 }
 
 export function setServerUrl(url: string) {

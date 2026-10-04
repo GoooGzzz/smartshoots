@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:web": "tsc && vite build --base /",
     "build:mobile": "tsc && vite build --base / --outDir dist-mobile",
     "preview": "vite preview"
   },

@@ -3,31 +3,24 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  // FIX: Django serves static files under /static/ (STATIC_URL), but Vite's
-  // default base ('/') built asset URLs like /assets/index-xxx.js at the
-  // root. Those didn't start with "static/", so Django's SPA catch-all
-  // route (urls.py) swallowed the request and returned index.html instead
-  // of the actual JS bundle - the page loaded but the script never ran,
-  // which is why it looked like a blank white page with nothing wrong in
-  // the console-visible network tab (wrong content, 200 status).
+  // Default base is '/static/' because Django serves the built files under
+  // STATIC_URL. The Cloudflare / plain-static-hosting build overrides it from
+  // the command line instead: `npm run build:web` (= vite build --base /).
   base: '/static/',
   build: {
     rollupOptions: {
       output: {
-        // FIX/NEW (performance): route-level lazy() in App.tsx already
-        // stops every page's code from loading up front - this groups
-        // the big third-party libraries into their own cacheable chunks
-        // too, so a future deploy that only changes app code doesn't
-        // force everyone to re-download MUI/recharts/etc. again, and the
-        // browser can fetch several smaller files in parallel instead of
-        // one huge one.
+        // Only split off the big, self-contained libraries. The previous
+        // "vendor-misc"/"vendor-react" catch-all rules created a circular
+        // chunk (vendor-misc -> vendor-react -> vendor-misc), which can cause
+        // "Cannot access ... before initialization" blank pages. Everything
+        // else is left to Rollup's automatic, cycle-free chunking.
         manualChunks(id) {
           if (!id.includes('node_modules')) return undefined;
-          if (id.includes('@mui') || id.includes('@emotion')) return 'vendor-mui';
-          if (id.includes('recharts') || id.includes('d3-')) return 'vendor-charts';
-          if (id.includes('xlsx') || id.includes('jspdf')) return 'vendor-export';
-          if (id.includes('react-router') || id.includes('/react/') || id.includes('/react-dom/')) return 'vendor-react';
-          return 'vendor-misc';
+          if (id.includes('/@mui/') || id.includes('/@emotion/')) return 'vendor-mui';
+          if (id.includes('/recharts/')) return 'vendor-charts';
+          if (id.includes('/xlsx/') || id.includes('/jspdf')) return 'vendor-export';
+          return undefined;
         },
       },
     },
