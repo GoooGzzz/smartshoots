@@ -20,6 +20,8 @@ import './i18n';
 // page's code only when its route is actually opened turns that one
 // giant download into ~15 small ones, so first load (and every reload,
 // including on a slow venue Wi-Fi) pulls a small fraction of that.
+const StudioPage=lazy(()=>import('./pages/StudioPage'));
+const ScreeningPage=lazy(()=>import('./pages/ScreeningPage'));
 const AcademyPage = lazy(() => import('./pages/AcademyPage'));
 const DeliveryPage = lazy(() => import('./pages/DeliveryPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
@@ -77,7 +79,7 @@ function AppContent() {
       // FIX/NEW: away from the generic "purple/blue-black SaaS" look -
       // warm ink + paper + a confident terracotta accent, fitting a
       // photography studio brand rather than a generic dashboard template.
-      primary: { main: '#B5482A', light: '#D9764F', dark: '#7C2E12', contrastText: '#FFFFFF' },
+      primary: { main: '#173c60', light: '#355d80', dark: '#10233d', contrastText: '#FFFFFF' },
       secondary: { main: '#F5A524', light: '#FFC466', dark: '#C67E0A', contrastText: '#1A1A1A' },
       success: { main: '#10B981' },
       warning: { main: '#F59E0B' },
@@ -92,7 +94,7 @@ function AppContent() {
     },
     shape: { borderRadius: 12 },
     typography: {
-      fontFamily: "'Plus Jakarta Sans', -apple-system, sans-serif",
+      fontFamily: isRTL ? "'Cairo', Tahoma, sans-serif" : "'Plus Jakarta Sans', -apple-system, sans-serif",
       h4: { fontWeight: 800, letterSpacing: '-0.02em' },
       h5: { fontWeight: 700, letterSpacing: '-0.01em' },
       h6: { fontWeight: 700 },
@@ -121,9 +123,9 @@ function AppContent() {
             // gradient-on-every-button look was part of what read as
             // "generic SaaS template" rather than a distinct brand.
             backgroundImage: 'none',
-            backgroundColor: '#B5482A',
+            backgroundColor: '#10233d',
             boxShadow: '0 6px 16px -4px rgba(181, 72, 42, 0.45)',
-            '&:hover': { backgroundImage: 'none', backgroundColor: '#7C2E12' },
+            '&:hover': { backgroundImage: 'none', backgroundColor: '#25496b' },
           },
         },
       },
@@ -140,6 +142,7 @@ function AppContent() {
         <Router>
           <Suspense fallback={<RouteFallback />}>
             <Routes>
+              <Route path="/screening/:id" element={<ScreeningPage />} />
               <Route path="/login" element={<LoginPage />} />
               <Route path="/recordings" element={<DeliveryRoute />} />
               <Route path="/" element={<ProtectedRoute><DashboardShell /></ProtectedRoute>}>
@@ -158,6 +161,7 @@ function AppContent() {
                 <Route path="progress" element={<ProgressPage />} />
                 <Route path="delivery" element={<DeliveryPage />} />
                 <Route path="academy" element={<AcademyPage />} />
+                <Route path="studio" element={<StudioPage />} />
               </Route>
             </Routes>
           </Suspense>

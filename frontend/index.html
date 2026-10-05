@@ -3,24 +3,24 @@
   <head>
     <link rel="manifest" href="%BASE_URL%manifest.json" />
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="%BASE_URL%logo.svg" />
-    <link rel="apple-touch-icon" href="%BASE_URL%pwa-192x192.png" />
+    <link rel="icon" type="image/svg+xml" href="/profile/brand-logo.png" />
+    <link rel="apple-touch-icon" href="/profile/brand-logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#4F3CC9" />
+    <meta name="theme-color" content="#10233d" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="description" content="SMART SHOOTS - studio management on Cloudflare." />
+    <meta name="description" content="SMART SHOOTS - private recordings and studio workspace." />
     <title>SMART SHOOTS</title>
     <style>
       /* Instant first paint (also offline): shown until React mounts. */
       #boot{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
-        background:linear-gradient(160deg,#1A1442,#4F3CC9);color:#fff;font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
+        background:linear-gradient(160deg,#0b182a,#10233d);color:#fff;font-family:-apple-system,'Segoe UI',Roboto,sans-serif}
       #boot .ring{width:46px;height:46px;border-radius:50%;border:4px solid rgba(255,255,255,.25);border-top-color:#F5A524;animation:bs 0.9s linear infinite}
       #boot b{letter-spacing:.14em;font-size:14px;opacity:.9}
       @keyframes bs{to{transform:rotate(360deg)}}
     </style>
-  </head>
+  <script defer src="/profile/numerals.js"></script></head>
   <body>
     <div id="root"><div id="boot"><div class="ring"></div><b>SMART SHOOTS</b></div></div>
     <script type="module" src="/src/main.tsx"></script>

@@ -36,18 +36,19 @@ export async function deliveryRoute(req, env, user) {
  if (path === '/api/delivery/recordings' && method === 'GET') {
   if (user.role !== 'client') admin(user);
   if(user.audience==='shared'||user.role!=='client'&&url.searchParams.get('shared')==='1'){
-   const list=await rows(env,"SELECT *,1 AS shared FROM delivery_recordings WHERE status='ready' AND id IN (SELECT recording_id FROM delivery_guest_recordings) ORDER BY created_at DESC");
+   const list=await rows(env,"SELECT *,1 AS shared FROM delivery_recordings WHERE status='ready' AND id NOT IN (SELECT asset_id FROM delivery_variants) AND id IN (SELECT recording_id FROM delivery_guest_recordings) ORDER BY created_at DESC");
    return json({results:list.map(r=>{const v=publicRecording(r);if(user.audience==='shared')delete v.client_id;return v;})});
   }
   const client = user.role === 'client' ? user.client_id : Number(url.searchParams.get('client'));
   if (!Number.isSafeInteger(client) || client <= 0) fail(400, 'Select a client');
-  const list = await rows(env, `SELECT *,EXISTS(SELECT 1 FROM delivery_guest_recordings g WHERE g.recording_id=delivery_recordings.id) AS shared FROM delivery_recordings WHERE client_id=? AND ${user.role === 'client' ? "status='ready'" : "status IN ('ready','hidden')"} ORDER BY created_at DESC`, client);
+  const list = await rows(env, `SELECT *,EXISTS(SELECT 1 FROM delivery_guest_recordings g WHERE g.recording_id=delivery_recordings.id) AS shared FROM delivery_recordings WHERE client_id=? AND id NOT IN (SELECT asset_id FROM delivery_variants) AND ${user.role === 'client' ? "status='ready'" : "status IN ('ready','hidden')"} ORDER BY created_at DESC`, client);
   return json({ results: list.map(publicRecording) });
  }
  const media = path.match(/^\/api\/delivery\/recordings\/([^/]+)\/file$/);
  if (media && ['GET', 'HEAD'].includes(method)) {
   if (user.role !== 'client') admin(user);
   const r = await recording(env, media[1]);
+  if(user.role==='client'&&await first(env,'SELECT asset_id FROM delivery_variants WHERE asset_id=?',r.id))fail(404,'Use the parent recording download choices');
   const guestAllowed=user.audience==='shared'&&r.status==='ready'&&await first(env,'SELECT recording_id FROM delivery_guest_recordings WHERE recording_id=?',r.id);
   if (!['ready', 'hidden'].includes(r.status) || user.role === 'client' && (user.audience==='shared' ? !guestAllowed : r.client_id !== user.client_id || r.status !== 'ready')) fail(404, 'Recording not found');
   const h = new Headers({ 'Content-Type': r.content_type, 'Cache-Control': 'private, no-store', 'X-Content-Type-Options': 'nosniff', 'Accept-Ranges': 'bytes', 'Content-Disposition': `${url.searchParams.has('download') ? 'attachment' : 'inline'}; filename="recording.${r.content_type === 'video/mp4' ? 'mp4' : 'webm'}"; filename*=UTF-8''${encodeURIComponent(r.filename).replace(/['()*]/g, c => '%' + c.charCodeAt(0).toString(16))}` });
@@ -63,6 +64,7 @@ export async function deliveryRoute(req, env, user) {
   h.set('Content-Length', String(length));
   const object = method === 'HEAD' ? await env.FILES.head(r.object_key) : await env.FILES.get(r.object_key, range ? { range: { offset, length } } : undefined);
   if (!object) fail(404, 'Recording file unavailable');
+  if(method==='GET'&&url.searchParams.has('download')&&!range)await sql(env,'INSERT INTO delivery_activity VALUES (?,?,?,?,?,?,?)',crypto.randomUUID(),r.id,String(user.id),user.first_name||user.username||'Studio','download','original',new Date().toISOString()).run();
   return new Response(method === 'HEAD' ? null : object.body, { status, headers: h });
  }
  if (!path.startsWith('/api/delivery/')) return null;
@@ -86,7 +88,7 @@ export async function deliveryRoute(req, env, user) {
  if (path === '/api/delivery/uploads' && method === 'POST') {
   const b = await body(req), client = Number(b.client_id), size = Number(b.size), filename = text(b.filename, 200).replace(/[\r\n\x00]/g, ''), title = text(b.title, 200);
   if (!await first(env, 'SELECT id FROM accounts_client WHERE id=?', client)) fail(404, 'Client not found');
-  if (!title || !filename || !['video/mp4', 'video/webm'].includes(b.content_type) || !Number.isSafeInteger(size) || size < 1 || size > MAX_SIZE) fail(400, 'Choose an MP4/WebM video up to 20 GiB and enter its title');
+  if (!title || !filename || !['video/mp4', 'video/webm','audio/mpeg','audio/mp4','audio/wav','audio/webm'].includes(b.content_type) || !Number.isSafeInteger(size) || size < 1 || size > MAX_SIZE) fail(400, 'Choose MP4/WebM or audio up to 20 GiB and enter its title');
   if ((await first(env, "SELECT COUNT(*) n FROM delivery_recordings WHERE created_by=? AND status='uploading'", user.id)).n >= 5) fail(409, 'Cancel unfinished uploads before starting more');
   const id = crypto.randomUUID(), key = `delivery/${client}/${id}`, upload = await env.FILES.createMultipartUpload(key, { httpMetadata: { contentType: b.content_type } });
   try { await sql(env, 'INSERT INTO delivery_recordings VALUES (?,?,?,?,?,?,?,?,?,?,?)', id, client, title, filename, b.content_type, size, key, upload.uploadId, 'uploading', user.id, new Date().toISOString()).run(); } catch (e) { await upload.abort(); throw e; }
@@ -119,6 +121,7 @@ export async function deliveryRoute(req, env, user) {
    if (!object) object = await upload.complete(parts.map(p => ({ partNumber: p.part_number, etag: p.etag })));
    if (object.size !== r.size) fail(409, 'Stored video size does not match');
    await env.DB.batch([sql(env, "UPDATE delivery_recordings SET status='ready',upload_id=NULL WHERE id=? AND status='uploading'", r.id), sql(env, 'DELETE FROM delivery_parts WHERE recording_id=?', r.id)]);
+   await sql(env,'INSERT INTO studio_outbox(id,dedupe,client_id,subject,message,created_at) VALUES (?,?,?,?,?,?) ON CONFLICT(dedupe) DO NOTHING',crypto.randomUUID(),'ready:'+r.id,r.client_id,'Your recording is ready','Your recording '+r.title+' is ready. Sign in at https://smartshoots.uk/login .',new Date().toISOString()).run();
    return json(publicRecording({ ...r, status: 'ready' }));
   }
   if (!uploadMatch[2] && method === 'DELETE') { await upload.abort(); await env.FILES.delete(r.object_key); await sql(env, 'DELETE FROM delivery_recordings WHERE id=?', r.id).run(); return new Response(null, { status: 204 }); }

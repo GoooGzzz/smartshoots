@@ -1,7 +1,7 @@
 /* SMART SHOOTS service worker - app-shell + runtime caching so the web/PWA
    build opens instantly and keeps working with no connection. API data is
    NOT handled here (the app's own cache + write queue does that). */
-const V = 'cloud-studio-v4-academic-page'; // NEW: bump this on every release so old cached bundles are dropped automatically
+const V = 'cloud-studio-v5-experience'; // NEW: bump this on every release so old cached bundles are dropped automatically
 const SHELL = 'ss-shell-' + V, RUNTIME = 'ss-runtime-' + V, CDN = 'ss-cdn-' + V;
 const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
@@ -52,7 +52,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
 
   if (url.origin === self.location.origin) {
-    if (url.pathname.startsWith('/profile') || (url.pathname === '/' && ['smartshoots.uk','www.smartshoots.uk'].includes(url.hostname))) return;
+    if (url.pathname.startsWith('/academy/') || url.pathname.startsWith('/series/') || url.pathname.startsWith('/knowledge/') || url.pathname.startsWith('/screening/') || url.pathname.startsWith('/profile') || (url.pathname === '/' && ['smartshoots.uk','www.smartshoots.uk'].includes(url.hostname))) return;
     if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/admin/') || url.pathname.startsWith('/files/') || url.pathname.startsWith('/r/')) return;
     if (req.mode === 'navigate') {
       if (url.pathname.startsWith('/r/')) { event.respondWith(networkFirst(req, RUNTIME)); return; }

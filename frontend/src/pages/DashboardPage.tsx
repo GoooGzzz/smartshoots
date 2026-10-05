@@ -1,3 +1,4 @@
+import StudioToday from '../components/StudioToday';
 import React from 'react';
 import { Grid, Card, CardContent, Typography, Box, Chip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
@@ -75,11 +76,12 @@ export default function DashboardPage() {
 
   return (
     <Box>
-      <PageHeader title={t('dashboard')} icon={<DashboardIcon />} color="#C1522F" />
+      <StudioToday />
+      <PageHeader title={t('dashboard')} icon={<DashboardIcon />} color="#173c60" />
       {/* NEW: greeting hero - time-aware welcome, live sync status, and
           one-tap shortcuts to the things done most. */}
       <Card sx={{ mb: 3, position: 'relative', overflow: 'hidden', color: '#fff', border: 'none',
-        background: 'linear-gradient(135deg, #1E1712 0%, #B5482A 55%, #E2A63F 100%)' }}>
+        background: 'linear-gradient(135deg, #0b182a 0%, #10233d 55%, #345a7c 100%)' }}>
         <Box sx={{ position: 'absolute', width: 260, height: 260, borderRadius: '50%', top: -90, right: -60, background: 'radial-gradient(circle, rgba(245,165,36,0.55), transparent 70%)' }} />
         <Box sx={{ position: 'absolute', width: 220, height: 220, borderRadius: '50%', bottom: -110, left: '30%', background: 'radial-gradient(circle, rgba(124,92,255,0.6), transparent 70%)' }} />
         <CardContent sx={{ position: 'relative', p: { xs: 2.5, sm: 3.5 } }}>

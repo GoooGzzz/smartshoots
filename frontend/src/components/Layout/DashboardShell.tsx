@@ -47,12 +47,12 @@ function CameraLogo() {
           </linearGradient>
           <linearGradient id="camTop" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#A78BFF" />
-            <stop offset="100%" stopColor="#C1522F" />
+            <stop offset="100%" stopColor="#173c60" />
           </linearGradient>
           <radialGradient id="lensRing" cx="35%" cy="35%" r="70%">
             <stop offset="0%" stopColor="#EDE8FF" />
             <stop offset="55%" stopColor="#B9A8FF" />
-            <stop offset="100%" stopColor="#C1522F" />
+            <stop offset="100%" stopColor="#173c60" />
           </radialGradient>
           <radialGradient id="lensGlass" cx="35%" cy="30%" r="75%">
             <stop offset="0%" stopColor="#7FE0FF" />
@@ -189,16 +189,17 @@ export default function DashboardShell() {
   const handleLogout = () => { logout(); navigate('/login'); };
 
   const menuItems = [
+    ...(['owner','admin'].includes(user?.role) ? [{ path:'/studio',label:isRTL?'إدارة الاستوديو':'Studio control',icon:<People />,color:'#10233D' }] : []),
     ...(['owner','admin'].includes(user?.role) ? [{ path: '/academy', label: isRTL ? 'الاستوديو الأكاديمي' : 'Academic Studio', icon: <People />, color: '#10233D' }] : []),
     ...(['owner','admin'].includes(user?.role) ? [{ path: '/delivery', label: isRTL ? 'تسجيلات العملاء' : 'Client recordings', icon: <AttachFile />, color: '#B28A3D' }] : []),
-    { path: '/', label: t('dashboard'), icon: <DashboardIcon />, color: '#C1522F' },
+    { path: '/', label: t('dashboard'), icon: <DashboardIcon />, color: '#173c60' },
     { path: '/clients', label: t('clients'), icon: <People />, color: '#2196F3' },
     { path: '/orders', label: t('orders'), icon: <Receipt />, color: '#FF9800' },
     { path: '/schedule', label: t('schedule'), icon: <CalendarMonth />, color: '#00BCD4' },
     { path: '/payments', label: t('payments'), icon: <PaymentIcon />, color: '#4CAF50' },
     { path: '/expenses', label: t('expenses'), icon: <MoneyOff />, color: '#F44336' },
     { path: '/reports', label: t('reports'), icon: <Assessment />, color: '#9C27B0' },
-    { path: '/tools', label: t('tools'), icon: <AutoAwesome />, color: '#B5482A' },
+    { path: '/tools', label: t('tools'), icon: <AutoAwesome />, color: '#10233d' },
     { path: '/settings', label: t('settings'), icon: <Settings />, color: '#607D8B' },
     { path: '/time-tracking', label: t('timeTracking'), icon: <Timer />, color: '#FF6E9C' },
     { path: '/attachments', label: t('attachments'), icon: <AttachFile />, color: '#795548' },
@@ -294,7 +295,7 @@ export default function DashboardShell() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundImage: 'linear-gradient(90deg, #B5482A 0%, #C1522F 100%)' }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundImage: 'linear-gradient(90deg, #10233d 0%, #173c60 100%)' }}>
         <Toolbar>
           <IconButton color="inherit" edge="start" onClick={() => { if (isMobile) setMobileOpen(!mobileOpen); else setCollapsed(!collapsed); }} sx={{ mr: 2 }}>
             {isMobile ? <MenuIcon /> : (collapsed ? (isRTL ? <ChevronLeft /> : <ChevronRight />) : (isRTL ? <ChevronRight /> : <ChevronLeft />))}
@@ -364,7 +365,7 @@ export default function DashboardShell() {
             position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: (t) => t.zIndex.drawer + 2,
             display: 'flex', justifyContent: 'space-around', alignItems: 'stretch',
             pb: 'env(safe-area-inset-bottom, 0px)',
-            backgroundImage: 'linear-gradient(180deg, #2A1F18 0%, #1E1712 100%)',
+            backgroundImage: 'linear-gradient(180deg, #132a44 0%, #0b182a 100%)',
             boxShadow: '0 -6px 20px -6px rgba(0,0,0,0.4)',
           }}
         >

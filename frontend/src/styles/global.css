@@ -114,3 +114,5 @@ body { overscroll-behavior-y: none; }
   .MuiAppBar-root, .MuiDrawer-root, .ss-pill-in { display: none !important; }
   main { padding: 0 !important; width: 100% !important; }
 }
+
+@font-face{font-family:Cairo;src:url('/profile/cairo-arabic.woff2') format('woff2');font-weight:200 1000;font-display:swap}html[dir=rtl] .back-to-studio svg,html[dir=rtl] .login-form button svg{transform:scaleX(-1)}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}

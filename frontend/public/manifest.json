@@ -1,22 +1,34 @@
 {
-  "name": "SMART SHOOTS",
+  "name": "SMART SHOOTS Recording Room",
   "short_name": "SmartShoots",
-  "description": "Studio management: clients, orders, schedule, payments and report drafts - works offline.",
-  "id": "/",
-  "start_url": "/",
+  "description": "Private recording review and studio workspace. Sign in to access your files.",
+  "id": "/recordings",
+  "start_url": "/login",
   "scope": "/",
   "display": "standalone",
   "orientation": "any",
-  "theme_color": "#4F3CC9",
-  "background_color": "#12101C",
-  "categories": ["business", "productivity"],
+  "theme_color": "#10233d",
+  "background_color": "#0b182a",
+  "categories": [
+    "business",
+    "productivity"
+  ],
   "icons": [
-    { "src": "pwa-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "pwa-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+    {
+      "src": "/profile/brand-logo.png",
+      "sizes": "1254x1254",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ],
   "shortcuts": [
-    { "name": "Clients", "url": "/clients" },
-    { "name": "Schedule", "url": "/schedule" },
-    { "name": "Report Drafts", "url": "/tools?tab=reports" }
+    {
+      "name": "My recordings",
+      "url": "/recordings"
+    },
+    {
+      "name": "Studio profile",
+      "url": "/profile/"
+    }
   ]
 }
