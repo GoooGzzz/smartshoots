@@ -20,6 +20,7 @@ import './i18n';
 // page's code only when its route is actually opened turns that one
 // giant download into ~15 small ones, so first load (and every reload,
 // including on a slow venue Wi-Fi) pulls a small fraction of that.
+const DeliveryPage = lazy(() => import('./pages/DeliveryPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const ClientsPage = lazy(() => import('./pages/ClientsPage'));
 const ClientDetailPage = lazy(() => import('./pages/ClientDetailPage'));
@@ -44,8 +45,18 @@ function RouteFallback() {
 
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading, user } = useAuth();
+  if (loading || isAuthenticated && !user) return <RouteFallback />;
+  if (user?.role === 'client') return <Navigate to="/recordings" replace />;
   return isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
+}
+
+function DeliveryRoute() {
+ const { isAuthenticated, loading, user } = useAuth();
+ if (loading) return <RouteFallback />;
+ if (!isAuthenticated) return <Navigate to="/login" replace />;
+ if (!user) return <RouteFallback />;
+ return user.role === 'client' ? <DeliveryPage /> : <Navigate to="/delivery" replace />;
 }
 
 function AppContent() {
@@ -129,6 +140,7 @@ function AppContent() {
           <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/recordings" element={<DeliveryRoute />} />
               <Route path="/" element={<ProtectedRoute><DashboardShell /></ProtectedRoute>}>
                 <Route index element={<DashboardPage />} />
                 <Route path="clients" element={<ClientsPage />} />
@@ -143,6 +155,7 @@ function AppContent() {
                 <Route path="time-tracking" element={<TimeTrackingPage />} />
                 <Route path="attachments" element={<AttachmentsPage />} />
                 <Route path="progress" element={<ProgressPage />} />
+                <Route path="delivery" element={<DeliveryPage />} />
               </Route>
             </Routes>
           </Suspense>

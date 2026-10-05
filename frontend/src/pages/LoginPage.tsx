@@ -19,7 +19,7 @@ export default function LoginPage() {
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
   const { login } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,7 +90,7 @@ export default function LoginPage() {
           </Box>
           <Typography variant="h4" fontWeight={800} gutterBottom>{t('welcomeBack')}</Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-            {t('signInSubtitle')}
+            {i18n.language === 'ar' ? 'سجّل الدخول إلى إدارة الاستوديو أو تسجيلاتك الخاصة ببيانات الدخول التي وفرها لك SMART SHOOTS.' : 'Sign in to studio management or your private recordings with the credentials supplied by SMART SHOOTS.'}
           </Typography>
           {error && <Alert severity="error" sx={{ width: '100%', mb: 2, borderRadius: 2 }}>{error}</Alert>}
           <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>

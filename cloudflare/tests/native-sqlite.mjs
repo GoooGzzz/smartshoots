@@ -1,6 +1,6 @@
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
-const migrations = ['0001_initial.sql', '0002_integrity.sql', '0003_schedule_guards.sql'];
+const migrations = ['0001_initial.sql', '0002_integrity.sql', '0003_schedule_guards.sql', '0004_client_delivery.sql'];
 export function initializeDatabase(path) {
   const db = new DatabaseSync(path);
   try { for (const name of migrations) db.exec(readFileSync('migrations/' + name, 'utf8')); }

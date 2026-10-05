@@ -176,7 +176,7 @@ export default function DashboardShell() {
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const { darkMode, toggleDarkMode } = useThemeMode();
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === 'ar';
@@ -189,6 +189,7 @@ export default function DashboardShell() {
   const handleLogout = () => { logout(); navigate('/login'); };
 
   const menuItems = [
+    ...(['owner','admin'].includes(user?.role) ? [{ path: '/delivery', label: isRTL ? 'تسجيلات العملاء' : 'Client recordings', icon: <AttachFile />, color: '#B28A3D' }] : []),
     { path: '/', label: t('dashboard'), icon: <DashboardIcon />, color: '#C1522F' },
     { path: '/clients', label: t('clients'), icon: <People />, color: '#2196F3' },
     { path: '/orders', label: t('orders'), icon: <Receipt />, color: '#FF9800' },

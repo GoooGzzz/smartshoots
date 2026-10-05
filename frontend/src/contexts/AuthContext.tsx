@@ -3,6 +3,7 @@ import apiClient from '../api/client';
 
 interface AuthContextType {
   isAuthenticated: boolean;
+  loading: boolean;
   user: any | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => void;
@@ -10,6 +11,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
+  loading: true,
   user: null,
   login: async () => {},
   logout: () => {},
@@ -18,16 +20,18 @@ const AuthContext = createContext<AuthContextType>({
 export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('auth_token');
     if (token) {
-      setIsAuthenticated(true);
-      // Restore the name after a restart / while offline.
-      try { const u = localStorage.getItem('auth_user'); if (u) setUser(JSON.parse(u)); } catch { /* ignore */ }
-    }
+      apiClient.get('/accounts/auth/me/').then(response => {
+        setUser(response.data); setIsAuthenticated(true);
+        localStorage.setItem('auth_user', JSON.stringify(response.data));
+      }).catch(() => { localStorage.removeItem('auth_token'); localStorage.removeItem('auth_user'); }).finally(() => setLoading(false));
+    } else setLoading(false);
   }, []);
 
   const login = async (username: string, password: string) => {
@@ -56,7 +60,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, loading, user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

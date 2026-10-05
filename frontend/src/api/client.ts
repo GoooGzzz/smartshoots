@@ -16,7 +16,7 @@ apiClient.interceptors.request.use(config => {
   Object.assign(config.headers, authHeaders());
   if (config.data instanceof FormData) config.timeout = 60000;
   const offline = !navigator.onLine || isBackendUnreachable();
-  if (offline && config.method === 'get' && config.url) {
+  if (offline && !config.url?.startsWith('/delivery/') && !config.url?.startsWith('/accounts/auth/') && config.method === 'get' && config.url) {
     const cached = getCachedGet(config.url);
     if (cached) {
       if (navigator.onLine) probeCloud();
@@ -28,12 +28,12 @@ apiClient.interceptors.request.use(config => {
 apiClient.interceptors.response.use(response => {
   if ((response as any)._fromCache) return response;
   reportBackendUnreachable(false);
-  if (response.config.method === 'get' && response.config.url && response.config.responseType !== 'blob') cacheGet(response.config.url, response.data);
+  if (response.config.method === 'get' && !response.config.url?.startsWith('/delivery/') && !response.config.url?.startsWith('/accounts/auth/') && response.config.url && response.config.responseType !== 'blob') cacheGet(response.config.url, response.data);
   return response;
 }, error => {
   const unreachable = !error.response && !!error.request;
   reportBackendUnreachable(unreachable);
-  if (unreachable && error.config?.method === 'get' && error.config?.url) {
+  if (unreachable && !error.config?.url?.startsWith('/delivery/') && !error.config?.url?.startsWith('/accounts/auth/') && error.config?.method === 'get' && error.config?.url) {
     const cached = getCachedGet(error.config.url);
     if (cached) return { data: cached.data, status: 200, _fromCache: true, _cachedAt: cached.cachedAt, config: error.config };
   }
