@@ -1,3 +1,4 @@
+import {guestAuthenticate,guestLogin,guestLogout,guestRoute,guestMaintenance} from './guest-sharing.js';
 import { fail, digest, passwordHash, verifyPassword } from './core.js';
 const CHUNK = 8 * 1024 * 1024, MAX_SIZE = 20 * 1024 ** 3;
 const sql = (env, query, ...args) => env.DB.prepare(query).bind(...args);
@@ -10,10 +11,11 @@ const view = u => ({ id: u.id, role: 'client', username: u.username, first_name:
 export async function deliveryAuthenticate(req, env) {
  const token = rawToken(req); if (!token) return null;
  const u = await first(env, `SELECT a.id,a.username,a.client_id,c.name FROM delivery_sessions s JOIN delivery_access a ON a.id=s.access_id JOIN accounts_client c ON c.id=a.client_id WHERE s.token_hash=? AND s.expires_at>? AND a.is_active=1 AND c.is_active=1`, await digest(token), Date.now());
- return u ? view(u) : null;
+ return u ? view(u) : await guestAuthenticate(req, env);
 }
 export async function deliveryLogin(env, username, password) {
  const u = await first(env, `SELECT a.*,c.name FROM delivery_access a JOIN accounts_client c ON c.id=a.client_id WHERE a.username=? AND a.is_active=1 AND c.is_active=1`, username);
+ if (!u) { const guest=await guestLogin(env,username,password); if(guest)return guest; }
  if (!await verifyPassword(password, u?.password || await passwordHash('dummy-password')) || !u) fail(400, 'Unable to log in with provided credentials');
  const token = crypto.randomUUID() + crypto.randomUUID();
  await sql(env, 'INSERT INTO delivery_sessions VALUES (?,?,?)', await digest(token), u.id, Date.now() + 86400000).run();
@@ -22,27 +24,32 @@ export async function deliveryLogin(env, username, password) {
 function admin(user) { if (!['owner', 'admin'].includes(user.role)) fail(403, 'Administrator access required'); }
 async function body(req) { try { return await req.json(); } catch { fail(400, 'Invalid JSON'); } }
 function text(value, max) { return String(value || '').trim().slice(0, max); }
-function publicRecording(r) { return { id: r.id, client_id: r.client_id, title: r.title, filename: r.filename, content_type: r.content_type, size: r.size, status: r.status, created_at: r.created_at }; }
+function publicRecording(r) { return { id: r.id, client_id: r.client_id, title: r.title, filename: r.filename, content_type: r.content_type, size: r.size, status: r.status, created_at: r.created_at, shared: !!r.shared }; }
 async function recording(env, id) { const r = await first(env, 'SELECT * FROM delivery_recordings WHERE id=?', id); if (!r || r.status === 'deleted') fail(404, 'Recording not found'); return r; }
 export async function deliveryRoute(req, env, user) {
  const url = new URL(req.url), path = url.pathname.replace(/\/+$/, ''), method = req.method;
  if (user.role === 'client') {
   if (path === '/api/accounts/auth/me' && method === 'GET') return json(user);
-  if (path === '/api/accounts/auth/logout' && method === 'POST') { await sql(env, 'DELETE FROM delivery_sessions WHERE token_hash=?', await digest(rawToken(req))).run(); return json({ status: 'logged_out' }, 200, { 'Set-Cookie': cookie('') }); }
+  if (path === '/api/accounts/auth/logout' && method === 'POST') { if(user.audience==='shared')await guestLogout(req,env); await sql(env, 'DELETE FROM delivery_sessions WHERE token_hash=?', await digest(rawToken(req))).run(); return json({ status: 'logged_out' }, 200, { 'Set-Cookie': cookie('') }); }
   if (!path.startsWith('/api/delivery/')) fail(403, 'Client accounts can only access their recordings');
  }
  if (path === '/api/delivery/recordings' && method === 'GET') {
   if (user.role !== 'client') admin(user);
+  if(user.audience==='shared'||user.role!=='client'&&url.searchParams.get('shared')==='1'){
+   const list=await rows(env,"SELECT *,1 AS shared FROM delivery_recordings WHERE status='ready' AND id IN (SELECT recording_id FROM delivery_guest_recordings) ORDER BY created_at DESC");
+   return json({results:list.map(r=>{const v=publicRecording(r);if(user.audience==='shared')delete v.client_id;return v;})});
+  }
   const client = user.role === 'client' ? user.client_id : Number(url.searchParams.get('client'));
   if (!Number.isSafeInteger(client) || client <= 0) fail(400, 'Select a client');
-  const list = await rows(env, `SELECT * FROM delivery_recordings WHERE client_id=? AND ${user.role === 'client' ? "status='ready'" : "status IN ('ready','hidden')"} ORDER BY created_at DESC`, client);
+  const list = await rows(env, `SELECT *,EXISTS(SELECT 1 FROM delivery_guest_recordings g WHERE g.recording_id=delivery_recordings.id) AS shared FROM delivery_recordings WHERE client_id=? AND ${user.role === 'client' ? "status='ready'" : "status IN ('ready','hidden')"} ORDER BY created_at DESC`, client);
   return json({ results: list.map(publicRecording) });
  }
  const media = path.match(/^\/api\/delivery\/recordings\/([^/]+)\/file$/);
  if (media && ['GET', 'HEAD'].includes(method)) {
   if (user.role !== 'client') admin(user);
   const r = await recording(env, media[1]);
-  if (!['ready', 'hidden'].includes(r.status) || user.role === 'client' && (r.client_id !== user.client_id || r.status !== 'ready')) fail(404, 'Recording not found');
+  const guestAllowed=user.audience==='shared'&&r.status==='ready'&&await first(env,'SELECT recording_id FROM delivery_guest_recordings WHERE recording_id=?',r.id);
+  if (!['ready', 'hidden'].includes(r.status) || user.role === 'client' && (user.audience==='shared' ? !guestAllowed : r.client_id !== user.client_id || r.status !== 'ready')) fail(404, 'Recording not found');
   const h = new Headers({ 'Content-Type': r.content_type, 'Cache-Control': 'private, no-store', 'X-Content-Type-Options': 'nosniff', 'Accept-Ranges': 'bytes', 'Content-Disposition': `${url.searchParams.has('download') ? 'attachment' : 'inline'}; filename="recording.${r.content_type === 'video/mp4' ? 'mp4' : 'webm'}"; filename*=UTF-8''${encodeURIComponent(r.filename).replace(/['()*]/g, c => '%' + c.charCodeAt(0).toString(16))}` });
   const range = req.headers.get('Range'); let offset = 0, length = r.size, status = 200;
   if (range) {
@@ -60,6 +67,7 @@ export async function deliveryRoute(req, env, user) {
  }
  if (!path.startsWith('/api/delivery/')) return null;
  admin(user);
+ const guestResponse=await guestRoute(req,env,user);if(guestResponse)return guestResponse;
  if (path === '/api/delivery/access' && method === 'GET') {
   const a = await first(env, 'SELECT id,client_id,username,is_active,updated_at FROM delivery_access WHERE client_id=?', Number(url.searchParams.get('client')));
   return json(a);
@@ -68,7 +76,7 @@ export async function deliveryRoute(req, env, user) {
   const b = await body(req), client = Number(b.client_id), username = text(b.username, 150);
   if (!await first(env, 'SELECT id FROM accounts_client WHERE id=?', client)) fail(404, 'Client not found');
   if (!/^[A-Za-z0-9._-]{3,80}$/.test(username)) fail(400, 'Use 3–80 letters, digits, dots, underscores or hyphens for username');
-  if (await first(env, 'SELECT id FROM accounts_user WHERE username=?', username)) fail(409, 'Username is already used by a studio account');
+  if (await first(env, 'SELECT id FROM delivery_guest_access WHERE username=?', username) || await first(env, 'SELECT id FROM accounts_user WHERE username=?', username)) fail(409, 'Username is already used by a studio account');
   const old = await first(env, 'SELECT * FROM delivery_access WHERE client_id=?', client);
   if (!old && String(b.password || '').length < 12 || b.password && (String(b.password).length < 12 || String(b.password).length > 128)) fail(400, 'Password must have 12–128 characters');
   const hash = b.password ? await passwordHash(String(b.password)) : old.password, id = old?.id || crypto.randomUUID();
@@ -126,11 +134,12 @@ export async function deliveryRoute(req, env, user) {
  fail(404, 'Delivery endpoint not found');
 }
 export async function deliveryMaintenance(env) {
+ await guestMaintenance(env);
  await sql(env, 'DELETE FROM delivery_sessions WHERE expires_at<?', Date.now()).run();
  const stale = await rows(env, "SELECT * FROM delivery_recordings WHERE status='uploading' AND created_at<? LIMIT 20", new Date(Date.now() - 86400000).toISOString());
  for (const r of stale) { await env.FILES.resumeMultipartUpload(r.object_key, r.upload_id).abort(); await env.FILES.delete(r.object_key); await sql(env, 'DELETE FROM delivery_recordings WHERE id=?', r.id).run(); }
  const removed = await rows(env, "SELECT * FROM delivery_recordings WHERE status='deleted' LIMIT 20");
  for (const r of removed) { await env.FILES.delete(r.object_key); await sql(env, 'DELETE FROM delivery_recordings WHERE id=?', r.id).run(); }
  const access = await rows(env, 'SELECT * FROM delivery_access'), recordings = await rows(env, "SELECT * FROM delivery_recordings WHERE status IN ('ready','hidden')");
- await env.FILES.put('backups/client-delivery-' + new Date().toISOString().slice(0,10) + '.json', JSON.stringify({ access, recordings }), { httpMetadata: { contentType: 'application/json' } });
+ await env.FILES.put('backups/client-delivery-' + new Date().toISOString().slice(0,10) + '.json', JSON.stringify({ access, recordings, guest_access:await rows(env,'SELECT * FROM delivery_guest_access'), guest_recordings:await rows(env,'SELECT * FROM delivery_guest_recordings') }), { httpMetadata: { contentType: 'application/json' } });
 }

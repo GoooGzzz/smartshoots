@@ -1,7 +1,7 @@
 /* SMART SHOOTS service worker - app-shell + runtime caching so the web/PWA
    build opens instantly and keeps working with no connection. API data is
    NOT handled here (the app's own cache + write queue does that). */
-const V = 'cloud-delivery-v1'; // NEW: bump this on every release so old cached bundles are dropped automatically
+const V = 'cloud-delivery-v2-guests'; // NEW: bump this on every release so old cached bundles are dropped automatically
 const SHELL = 'ss-shell-' + V, RUNTIME = 'ss-runtime-' + V, CDN = 'ss-cdn-' + V;
 const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 

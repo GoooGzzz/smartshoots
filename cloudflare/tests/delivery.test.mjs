@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import worker from '../src/worker.js';
 import { deliveryMaintenance } from '../src/delivery.js';
-test('private client delivery: chunked upload, isolation, ranges, reset, revoke and cleanup', async () => {
+test('private client and shared guest delivery: chunked upload, isolation, ranges, reset, revoke and cleanup', async () => {
  const dir = mkdtempSync(join(tmpdir(), 'ss-delivery-')), db = join(dir, 'db'); initializeDatabase(db);
  class Statement { constructor(query, args=[]) { this.query=query;this.args=args; } bind(...args) { return new Statement(this.query,args); } async run(){return runStatements(db,[this])[0];} async all(){return this.run();} async first(){return (await this.run()).results[0]||null;} }
  const objects=new Map(), uploads=new Map();
@@ -62,6 +62,40 @@ test('private client delivery: chunked upload, isolation, ranges, reset, revoke 
   token=(await api('accounts/auth/login','POST',{username:'doctor-a',password:'new-private-password'})).data.token;
   await request('/files/attachment/'+attachment.share_token,'GET',undefined,403);
   token=owner;
+  await api('delivery/guest-access','POST',{username:'studio-guests',password:'guest-private-password'});
+  await api('delivery/guest-access','POST',{username:'doctor-a',password:'guest-private-password'},409);
+  await api('delivery/access','POST',{client_id:a.id,username:'studio-guests',password:'new-private-password'},409);
+  await api('accounts/users/1','PATCH',{username:'studio-guests'},409);
+  const separate=(await api('delivery/uploads','POST',{client_id:b.id,title:'Private beta video',filename:'private.mp4',content_type:'video/mp4',size:3},201)).data;
+  await api(`delivery/uploads/${separate.id}/parts/1`,'PUT',Buffer.from('SEC'));
+  await api(`delivery/uploads/${separate.id}/complete`,'POST',{});
+  token=(await api('accounts/auth/login','POST',{username:'studio-guests',password:'guest-private-password'})).data.token;
+  const guestToken=token;
+  assert.equal((await api('accounts/auth/me')).data.audience,'shared');
+  assert.equal((await api('delivery/recordings')).data.results.length,0);
+  await api(`delivery/recordings/${init.id}/file`,'HEAD',undefined,404);
+  await api('accounts/clients','GET',undefined,403);
+  await api('delivery/guest-access','GET',undefined,403);
+  await api(`delivery/recordings/${init.id}/shared`,'POST',{},403);
+  token=owner;await api(`delivery/recordings/${init.id}/shared`,'POST',{});
+  assert.equal((await api('delivery/recordings?shared=1')).data.results.length,1);
+  token=guestToken;const guestList=(await api('delivery/recordings?client='+b.id)).data.results;assert.equal(guestList[0].id,init.id);assert.equal(guestList[0].client_id,undefined);
+  await api(`delivery/recordings/${init.id}/file`,'HEAD',undefined,200,{Authorization:'',Cookie:'ss_session='+guestToken});
+  await api(`delivery/recordings/${separate.id}/file`,'GET',undefined,404);
+  token=(await api('accounts/auth/login','POST',{username:'doctor-b',password:'private-client-password'})).data.token;
+  await api(`delivery/recordings/${init.id}/file`,'GET',undefined,404); // clients do not inherit guest access
+  assert.equal((await api('delivery/recordings?shared=1')).data.results[0].id,separate.id);
+  token=owner;await api(`delivery/recordings/${init.id}`,'PATCH',{status:'hidden'});
+  token=guestToken;assert.equal((await api('delivery/recordings')).data.results.length,0);await api(`delivery/recordings/${init.id}/file`,'GET',undefined,404);
+  token=owner;await api(`delivery/recordings/${init.id}`,'PATCH',{status:'ready'});await api(`delivery/recordings/${init.id}/shared`,'DELETE',undefined,204);
+  token=guestToken;await api(`delivery/recordings/${init.id}/file`,'GET',undefined,404);
+  token=owner;await api('delivery/guest-access','POST',{username:'studio-guests',password:'guest-reset-password'});
+  token=guestToken;await api('delivery/recordings','GET',undefined,401);
+  token='';await api('accounts/auth/login','POST',{username:'studio-guests',password:'guest-private-password'},400);
+  token=(await api('accounts/auth/login','POST',{username:'studio-guests',password:'guest-reset-password'})).data.token;
+  await api('accounts/auth/logout','POST',{});await api('delivery/recordings','GET',undefined,401);
+  token=owner;await api('delivery/guest-access','POST',{username:'studio-guests',is_active:false});token='';await api('accounts/auth/login','POST',{username:'studio-guests',password:'guest-reset-password'},400);
+  token=owner;await api(`delivery/recordings/${separate.id}`,'DELETE',undefined,204);
   const incomplete=(await api('delivery/uploads','POST',{client_id:b.id,title:'Unfinished',filename:'x.mp4',content_type:'video/mp4',size:3},201)).data;
   await api(`delivery/uploads/${incomplete.id}`,'DELETE',undefined,204);assert.equal(uploads.size,0);
   const stale=(await api('delivery/uploads','POST',{client_id:b.id,title:'Stale',filename:'x.mp4',content_type:'video/mp4',size:3},201)).data;
