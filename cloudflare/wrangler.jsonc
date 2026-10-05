@@ -3,7 +3,7 @@
   "name": "smartshoots",
   "main": "src/worker.js",
   "compatibility_date": "2026-10-01",
-  "assets": { "directory": "../frontend/dist", "binding": "ASSETS", "not_found_handling": "single-page-application", "run_worker_first": ["/api/*", "/r/*", "/files/*"] },
+  "assets": { "directory": "../frontend/dist", "binding": "ASSETS", "not_found_handling": "single-page-application", "run_worker_first": ["/", "/api/*", "/r/*", "/files/*"] },
   "d1_databases": [{ "binding": "DB", "database_name": "smartshoots", "database_id": "REPLACE_WITH_YOUR_D1_DATABASE_ID", "migrations_dir": "migrations" }],
   "r2_buckets": [{ "binding": "FILES", "bucket_name": "smartshoots-files" }],
   "triggers": { "crons": ["0 1 * * *"] }
