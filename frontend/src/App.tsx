@@ -20,6 +20,7 @@ import './i18n';
 // page's code only when its route is actually opened turns that one
 // giant download into ~15 small ones, so first load (and every reload,
 // including on a slow venue Wi-Fi) pulls a small fraction of that.
+const AcademyPage = lazy(() => import('./pages/AcademyPage'));
 const DeliveryPage = lazy(() => import('./pages/DeliveryPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 const ClientsPage = lazy(() => import('./pages/ClientsPage'));
@@ -156,6 +157,7 @@ function AppContent() {
                 <Route path="attachments" element={<AttachmentsPage />} />
                 <Route path="progress" element={<ProgressPage />} />
                 <Route path="delivery" element={<DeliveryPage />} />
+                <Route path="academy" element={<AcademyPage />} />
               </Route>
             </Routes>
           </Suspense>

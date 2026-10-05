@@ -1,138 +1,33 @@
 import React, { useState } from 'react';
-import {
-  Box, TextField, Button, Typography, Alert, InputAdornment, IconButton, CircularProgress,
-} from '@mui/material';
-import { Visibility, VisibilityOff, CameraAlt, PersonOutline, LockOutlined } from '@mui/icons-material';
+import { Box, TextField, Button, Typography, Alert, InputAdornment, IconButton, CircularProgress } from '@mui/material';
+import { Visibility, VisibilityOff, ArrowForward, LockOutlined, Language, ArrowBack } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/AuthContext';
-
-// NEW: redesigned from a plain centered form into a split-screen layout -
-// a branded gradient panel on one side, a clean card-style form on the
-// other. Matches the theme overhaul in App.tsx (Plus Jakarta Sans font,
-// indigo/amber palette) instead of default MUI look.
+import './StudioLogin.css';
 export default function LoginPage() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const navigate = useNavigate();
-  const { login } = useAuth();
-  const { t, i18n } = useTranslation();
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setSubmitting(true);
-    try {
-      await login(username, password);
-      navigate('/');
-    } catch (err) {
-      setError(t('invalidCredentials'));
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', width: '100%' }}>
-      {/* Brand panel */}
-      <Box
-        sx={{
-          display: { xs: 'none', md: 'flex' },
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          width: '45%',
-          p: 6,
-          color: '#fff',
-          backgroundImage: 'radial-gradient(circle at 20% 20%, #C1522F 0%, #B5482A 45%, #2A1F18 100%)',
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        <Box sx={{
-          position: 'absolute', inset: 0, opacity: 0.15,
-          backgroundImage: 'radial-gradient(circle, #F5A524 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-        }} />
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, zIndex: 1 }}>
-          <Box sx={{
-            width: 44, height: 44, borderRadius: 2.5, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            bgcolor: 'rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)',
-          }}>
-            <CameraAlt />
-          </Box>
-          <Typography variant="h6" fontWeight={800} letterSpacing="-0.02em">SMART SHOOTS</Typography>
-        </Box>
-        <Box sx={{ zIndex: 1 }}>
-          <Typography variant="h3" fontWeight={800} letterSpacing="-0.02em" sx={{ mb: 2, lineHeight: 1.15 }}>
-            {t('loginHeroTitle')}
-          </Typography>
-          <Typography variant="body1" sx={{ opacity: 0.85, maxWidth: 420 }}>
-            {t('loginHeroSubtitle')}
-          </Typography>
-        </Box>
-        <Typography variant="caption" sx={{ opacity: 0.6, zIndex: 1 }}>
-          © {new Date().getFullYear()} SMART SHOOTS
-        </Typography>
-      </Box>
-
-      {/* Form panel */}
-      <Box sx={{
-        flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', p: 3,
-        bgcolor: 'background.default',
-      }}>
-        <Box sx={{ width: '100%', maxWidth: 380 }}>
-          <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: 'center', gap: 1, mb: 4, justifyContent: 'center' }}>
-            <CameraAlt color="primary" />
-            <Typography variant="h6" fontWeight={800}>SMART SHOOTS</Typography>
-          </Box>
-          <Typography variant="h4" fontWeight={800} gutterBottom>{t('welcomeBack')}</Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-            {i18n.language === 'ar' ? 'سجّل الدخول إلى إدارة الاستوديو أو تسجيلاتك الخاصة ببيانات الدخول التي وفرها لك SMART SHOOTS.' : 'Sign in to studio management or your private recordings with the credentials supplied by SMART SHOOTS.'}
-          </Typography>
-          {error && <Alert severity="error" sx={{ width: '100%', mb: 2, borderRadius: 2 }}>{error}</Alert>}
-          <Box component="form" onSubmit={handleSubmit} sx={{ width: '100%' }}>
-            <TextField
-              fullWidth
-              label={t('username')}
-              margin="normal"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              autoFocus
-              InputProps={{ startAdornment: <InputAdornment position="start"><PersonOutline fontSize="small" /></InputAdornment> }}
-            />
-            <TextField
-              fullWidth
-              label={t('password')}
-              type={showPassword ? 'text' : 'password'}
-              margin="normal"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              InputProps={{
-                startAdornment: <InputAdornment position="start"><LockOutlined fontSize="small" /></InputAdornment>,
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end" size="small" tabIndex={-1}>
-                      {showPassword ? <VisibilityOff fontSize="small" /> : <Visibility fontSize="small" />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Button
-              type="submit" fullWidth variant="contained" size="large" disabled={submitting}
-              sx={{ mt: 3, py: 1.4 }}
-              startIcon={submitting ? <CircularProgress size={18} color="inherit" /> : undefined}
-            >
-              {t('signIn')}
-            </Button>
-          </Box>
-        </Box>
-      </Box>
+ const [username,setUsername]=useState(''),[password,setPassword]=useState(''),[showPassword,setShowPassword]=useState(false),[error,setError]=useState(''),[submitting,setSubmitting]=useState(false);
+ const navigate=useNavigate(),{login}=useAuth(),{i18n}=useTranslation();const ar=i18n.language==='ar',text=(en:string,arabic:string)=>ar?arabic:en;
+ async function submit(e:React.FormEvent){e.preventDefault();setError('');setSubmitting(true);try{await login(username,password);navigate('/');}catch(err:any){setError(err.response?.status===429?text('Too many attempts. Please try again in 15 minutes.','محاولات كثيرة. حاول مجددًا بعد 15 دقيقة.'):err.response?.status>=500||!err.response?text('We could not connect to the studio. Please try again.','تعذر الاتصال بالاستوديو. حاول مجددًا.'):text('The username or password is incorrect.','اسم المستخدم أو كلمة المرور غير صحيحة.'));}finally{setSubmitting(false);}}
+ return <Box className="studio-login">
+  <Box component="header" className="login-header"><a href="https://smartshoots.uk/" className="login-brand"><img src="/profile/brand-logo.webp" alt="Smart Shoots" /><span>SMART SHOOTS</span></a><Button startIcon={<Language />} onClick={()=>i18n.changeLanguage(ar?'en':'ar')} sx={{color:'#10233d',minHeight:44}}>{ar?'English':'العربية'}</Button></Box>
+  <Box className="login-layout">
+   <Box className="login-form-side"><Box className="login-form-inner">
+    <a className="back-to-studio" href="https://smartshoots.uk/"><ArrowBack fontSize="small" />{text('Back to the studio','العودة للاستوديو')}</a>
+    <span className="login-eyebrow">SMART SHOOTS / PRIVATE ACCESS</span>
+    <Typography component="h1" className="login-title">{text('Your work.','أعمالك.')}<br /><span>{text('Your space.','مساحتك.')}</span></Typography>
+    <Typography className="login-subtitle">{text('Sign in to your recordings, the shared screening room or your studio workspace.','سجّل الدخول لتسجيلاتك أو قاعة المشاهدة المشتركة أو مساحة إدارة الاستوديو.')}</Typography>
+    <Box component="form" onSubmit={submit} className="login-form">
+     {error&&<Alert severity="error" sx={{mb:2}}>{error}</Alert>}
+     <TextField fullWidth label={text('Username','اسم المستخدم')} value={username} onChange={e=>setUsername(e.target.value)} required autoComplete="username" inputProps={{maxLength:150}} disabled={submitting} />
+     <TextField fullWidth label={text('Password','كلمة المرور')} type={showPassword?'text':'password'} value={password} onChange={e=>setPassword(e.target.value)} required autoComplete="current-password" disabled={submitting} InputProps={{endAdornment:<InputAdornment position="end"><IconButton aria-label={text(showPassword?'Hide password':'Show password',showPassword?'إخفاء كلمة المرور':'إظهار كلمة المرور')} aria-pressed={showPassword} onClick={()=>setShowPassword(!showPassword)} edge="end">{showPassword?<VisibilityOff />:<Visibility />}</IconButton></InputAdornment>}} />
+     <Button fullWidth type="submit" variant="contained" disabled={submitting} endIcon={submitting?<CircularProgress size={18} color="inherit" />:<ArrowForward />} sx={{minHeight:56,bgcolor:'#10233d',color:'#fff',borderRadius:'12px',boxShadow:'none','&:hover':{bgcolor:'#1d3d60'}}}>{text('Enter your space','ادخل مساحتك')}</Button>
     </Box>
-  );
+    <Box className="login-access-note"><LockOutlined fontSize="small" /><Typography>{text('Use the credentials supplied by SMART SHOOTS. Your account opens the right space automatically.','استخدم بيانات الدخول التي وفّرها SMART SHOOTS. حسابك يفتح المساحة المناسبة تلقائيًا.')}</Typography></Box>
+    <Box className="login-help"><span>{text('Need access?','تحتاج بيانات الدخول؟')}</span><a href="https://wa.me/201039331699">{text('Contact the studio ↗','تواصل مع الاستوديو ↗')}</a></Box>
+   </Box></Box>
+   <Box className="login-visual"><img className="login-scene" src="/profile/studio-concept.webp" alt="" /><Box className="login-visual-copy"><span className="login-eyebrow">A CREATIVE PRODUCTION STUDIO</span><Typography component="h2">{text('Expertise,','خبرتك،')}<br /><span>{text('in focus.','في الكادر.')}</span></Typography><p>{text('A dedicated space for ideas worth sharing.','مساحة مخصصة للأفكار التي تستحق المشاركة.')}</p></Box><Box className="login-equipment"><div><b>90″</b><span>{text('Interactive display','شاشة تفاعلية')}</span></div><div><b>Canon</b><span>{text('Premium cameras','كاميرات احترافية')}</span></div><div><b>Audio</b><span>{text('Premium microphones','مايكروفونات احترافية')}</span></div></Box><span className="login-concept-note">{text('Illustrative equipment concept','تصوّر توضيحي للتجهيزات')}</span></Box>
+  </Box>
+  <Box component="footer" className="login-footer"><span>© {new Date().getFullYear()} SMART SHOOTS</span><span>{text('HELWAN, EGYPT • YOUR EXPERTISE DESERVES A STAGE','حلوان، مصر • خبرتك تستحق الظهور')}</span></Box>
+ </Box>;
 }

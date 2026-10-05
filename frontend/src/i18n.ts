@@ -532,7 +532,8 @@ i18n
     resources,
     fallbackLng: 'en',
     detection: {
-      order: ['localStorage', 'navigator'],
+      order: ['localStorage'],
+      lookupLocalStorage: 'ss-language-choice',
       caches: ['localStorage'],
     },
     interpolation: { escapeValue: false },
