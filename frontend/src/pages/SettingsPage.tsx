@@ -51,30 +51,7 @@ export default function SettingsPage() {
   // browser or the Android build, where this concept doesn't apply the
   // same way (Android always needs a Server Address; Electron normally
   // runs its own backend and doesn't).
-  const desktopBridge = (window as any).smartshootsDesktop;
-  const [desktopMode, setDesktopMode] = useState<'local' | 'remote'>('local');
-  const [desktopRemoteUrl, setDesktopRemoteUrl] = useState('');
-  const [desktopSaving, setDesktopSaving] = useState(false);
-  const [desktopError, setDesktopError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (desktopBridge) {
-      desktopBridge.getConnectionConfig().then((cfg: { mode: 'local' | 'remote'; remoteUrl: string }) => {
-        setDesktopMode(cfg.mode);
-        setDesktopRemoteUrl(cfg.remoteUrl || '');
-      });
-      // NEW: powers the "scan to connect your phone" QR code below -
-      // only meaningful in local mode (a remote/cloud server already has
-      // its own real address the phone should use instead).
-      desktopBridge.getLanAddress().then((info: { address: string; port: number } | null) => {
-        if (info) setLanAddress(`http://${info.address}:${info.port}`);
-      });
-    }
-  }, []);
-
-  const [lanAddress, setLanAddress] = useState<string | null>(null);
   const [scannerOpen, setScannerOpen] = useState(false);
-
   const { data, isLoading } = useQuery({
     queryKey: ['business-settings'],
     queryFn: () => apiClient.get('/finance/settings/').then(res => res.data),
@@ -286,104 +263,12 @@ export default function SettingsPage() {
         </CardContent>
       </Card>
 
-      {desktopBridge ? (
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>{t('desktopConnection')}</Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-              {t('desktopConnectionHelp')}
-            </Typography>
-            <TextField
-              select size="small" sx={{ minWidth: 220, mb: 2 }}
-              value={desktopMode}
-              onChange={(e) => setDesktopMode(e.target.value as 'local' | 'remote')}
-            >
-              <MenuItem value="local">{t('thisComputer')}</MenuItem>
-              <MenuItem value="remote">{t('remoteServer')}</MenuItem>
-            </TextField>
-            {desktopMode === 'remote' && (
-              <TextField
-                fullWidth size="small" sx={{ mb: 2 }}
-                placeholder="https://smartshoots.yourdomain.com"
-                value={desktopRemoteUrl}
-                onChange={(e) => setDesktopRemoteUrl(e.target.value)}
-              />
-            )}
-            {desktopError && <Typography variant="body2" color="error" sx={{ mb: 2 }}>{desktopError}</Typography>}
-            <Box>
-              <Button
-                variant="outlined"
-                disabled={desktopSaving}
-                onClick={async () => {
-                  setDesktopSaving(true);
-                  setDesktopError(null);
-                  const result = await desktopBridge.setConnectionConfig({ mode: desktopMode, remoteUrl: desktopRemoteUrl });
-                  // On success the whole app relaunches from main.js, so
-                  // there's nothing more to do here - only a failure
-                  // (unreachable address) actually returns control to us.
-                  if (!result.ok) {
-                    setDesktopError(result.error);
-                    setDesktopSaving(false);
-                  }
-                }}
-              >
-                {desktopSaving ? t('checking') : t('applyAndRestart')}
-              </Button>
-            </Box>
-
-            {desktopMode === 'local' && lanAddress && (
-              <Box sx={{ mt: 3, pt: 3, borderTop: '1px solid', borderColor: 'divider' }}>
-                <Typography variant="subtitle2" sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <PhoneIphone fontSize="small" /> {t('connectYourPhone')}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  {t('connectYourPhoneHelp')}
-                </Typography>
-                <ServerQRCode value={lanAddress} />
-              </Box>
-            )}
-          </CardContent>
-        </Card>
-      ) : (
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>{t('serverAddress')}</Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-              {t('serverAddressHelp')}
-            </Typography>
-            <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start', flexWrap: 'wrap' }}>
-              <TextField
-                size="small" sx={{ minWidth: 280 }}
-                placeholder="http://192.168.1.20:8000"
-                value={serverUrl}
-                onChange={(e) => setServerUrl(e.target.value)}
-              />
-              <Button
-                variant="outlined"
-                onClick={() => {
-                  setServerUrlStorage(serverUrl);
-                  // The old auth token (if any) was just cleared because
-                  // it belongs to whichever server was previously
-                  // configured - send the person to log in fresh against
-                  // the new one rather than leaving them on a page that
-                  // will just 401 on every request.
-                  logout();
-                  navigate('/login');
-                }}
-              >
-                {t('save')}
-              </Button>
-              <Button
-                variant="text"
-                startIcon={<QrCodeScanner />}
-                onClick={() => setScannerOpen(true)}
-              >
-                {t('scanQr')}
-              </Button>
-            </Box>
-          </CardContent>
-        </Card>
-      )}
+      <Card sx={{ mb: 3 }}><CardContent>
+        <Typography variant="h6" gutterBottom>Cloudflare</Typography>
+        <Typography variant="body2">{settings.language === 'ar' ? 'يعمل التطبيق وقاعدة البيانات والملفات على كلاودفلير. افتح نفس الرابط من أي جهاز، دون تشغيل خادم محلي.' : 'The app, database and files run on Cloudflare. Open this URL on any device; no local server is required.'}</Typography>
+        <Typography sx={{ mt: 2, wordBreak: 'break-all' }}>{window.location.origin}</Typography>
+        <ServerQRCode value={window.location.origin} />
+      </CardContent></Card>
 
       <Card>
         <CardContent>

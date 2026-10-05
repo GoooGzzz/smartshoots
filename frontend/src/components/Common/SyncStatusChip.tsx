@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { formatDistanceToNow } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { subscribeBackendStatus } from '../../api/connectionStatus';
-import { onQueueChange, getCachedGet } from '../../api/offlineQueue';
-import { onFileQueueChange } from '../../api/offlineFileQueue';
+import { getCachedGet } from '../../api/offlineQueue';
+
 
 // NEW: honest at-a-glance state - online/offline, how old the data on
 // screen is (taken from the last REAL successful fetch, not "now"), and
@@ -19,8 +19,8 @@ export default function SyncStatusChip({ probeUrl = '/reports/dashboard/' }: { p
   const [queuedFiles, setQueuedFiles] = useState(0);
   const [, tick] = useState(0);
   useEffect(() => subscribeBackendStatus(setOffline), []);
-  useEffect(() => onQueueChange(setQueued), []);
-  useEffect(() => onFileQueueChange(setQueuedFiles), []);
+
+
   useEffect(() => { const id = setInterval(() => tick((n) => n + 1), 30000); return () => clearInterval(id); }, []);
 
   const totalQueued = queued + queuedFiles;

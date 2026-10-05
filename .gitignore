@@ -1,29 +1,12 @@
-# Python
-__pycache__/
-*.py[cod]
-venv/
-.env
-*.sqlite3
-staticfiles/
-media/
-
-# Node
 node_modules/
 frontend/dist/
 frontend/.vite/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Desktop app build
-desktop-app/dist/
-desktop-app/node_modules/
-desktop-app/out/.env
-__pycache__/
-node_modules/
+cloudflare/.wrangler/
+cloudflare/.check/
+cloudflare/.runtime-test/
+**/.env
+**/.dev.vars
+**/__pycache__/
+**/*.sqlite3
+**/*.sqlite
+*.log

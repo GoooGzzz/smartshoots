@@ -47,6 +47,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const logout = () => {
+    apiClient.post('/accounts/auth/logout/').catch(() => {});
+    for (let i = localStorage.length - 1; i >= 0; i--) { const k = localStorage.key(i); if (k?.startsWith('offline_cache')) localStorage.removeItem(k); }
     localStorage.removeItem('auth_token');
     localStorage.removeItem('auth_user');
     setUser(null);

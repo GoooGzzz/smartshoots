@@ -6,7 +6,7 @@ export default defineConfig({
   // Default base is '/static/' because Django serves the built files under
   // STATIC_URL. The Cloudflare / plain-static-hosting build overrides it from
   // the command line instead: `npm run build:web` (= vite build --base /).
-  base: '/static/',
+  base: '/',
   build: {
     rollupOptions: {
       output: {
@@ -22,15 +22,6 @@ export default defineConfig({
           if (id.includes('/xlsx/') || id.includes('/jspdf')) return 'vendor-export';
           return undefined;
         },
-      },
-    },
-  },
-  server: {
-    port: 3000,
-    proxy: {
-      '/api': {
-        target: 'http://127.0.0.1:8000',
-        changeOrigin: true,
       },
     },
   },

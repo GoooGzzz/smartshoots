@@ -1,0 +1,1832 @@
+{
+  "accounts/users": {
+    "table": "accounts_user",
+    "model": "accounts.user",
+    "fields": {
+      "first_name": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 150
+      },
+      "last_name": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 150
+      },
+      "user_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "role": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "default": "staff",
+        "choices": [
+          "owner",
+          "admin",
+          "manager",
+          "staff"
+        ]
+      },
+      "phone": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 17
+      },
+      "avatar": {
+        "type": "ImageField",
+        "null": true,
+        "blank": true
+      },
+      "language_preference": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 2,
+        "default": "en",
+        "choices": [
+          "en",
+          "ar"
+        ]
+      },
+      "theme_preference": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 10,
+        "default": "light",
+        "choices": [
+          "light",
+          "dark"
+        ]
+      },
+      "is_active_staff": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "username": {
+        "type": "CharField",
+        "unique": true
+      },
+      "email": {
+        "type": "CharField",
+        "default": "",
+        "blank": true
+      },
+      "password": {
+        "type": "CharField",
+        "readonly": true
+      },
+      "is_active": {
+        "type": "BooleanField",
+        "default": true
+      }
+    }
+  },
+  "accounts/client-tags": {
+    "table": "accounts_clienttag",
+    "model": "accounts.clienttag",
+    "fields": {
+      "tag_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "name": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "max_length": 50
+      },
+      "color": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 7,
+        "default": "#2196F3"
+      }
+    }
+  },
+  "accounts/clients": {
+    "table": "accounts_client",
+    "model": "accounts.client",
+    "fields": {
+      "client_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "name": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 200
+      },
+      "type": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "default": "other",
+        "choices": [
+          "doctor",
+          "teacher",
+          "professor",
+          "lab",
+          "other"
+        ]
+      },
+      "category": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 10,
+        "default": "academic",
+        "choices": [
+          "academic",
+          "business"
+        ]
+      },
+      "primary_phone": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 17
+      },
+      "email": {
+        "type": "EmailField",
+        "null": false,
+        "blank": true
+      },
+      "notes": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "address": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "tags": {
+        "type": "ManyToManyField",
+        "null": false,
+        "blank": true,
+        "target": "ClientTag"
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "PROTECT"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      },
+      "updated_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      },
+      "is_active": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      }
+    }
+  },
+  "accounts/phones": {
+    "table": "accounts_phonenumber",
+    "model": "accounts.phonenumber",
+    "fields": {
+      "client": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "Client",
+        "delete": "CASCADE"
+      },
+      "phone": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 17
+      },
+      "label": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 50
+      },
+      "is_whatsapp": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": false
+      }
+    }
+  },
+  "accounts/staff": {
+    "table": "accounts_staffmember",
+    "model": "accounts.staffmember",
+    "fields": {
+      "staff_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "user": {
+        "type": "OneToOneField",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "CASCADE"
+      },
+      "role": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "choices": [
+          "editor",
+          "camera_operator",
+          "assistant",
+          "manager"
+        ]
+      },
+      "hourly_rate": {
+        "type": "DecimalField",
+        "null": true,
+        "blank": true
+      },
+      "monthly_salary": {
+        "type": "DecimalField",
+        "null": true,
+        "blank": true
+      },
+      "hire_date": {
+        "type": "DateField",
+        "null": false,
+        "blank": false
+      },
+      "skills": {
+        "type": "JSONField",
+        "null": false,
+        "blank": true,
+        "default": []
+      },
+      "is_active": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      }
+    }
+  },
+  "accounts/evaluations": {
+    "table": "accounts_staffevaluation",
+    "model": "accounts.staffevaluation",
+    "fields": {
+      "evaluation_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "staff": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "StaffMember",
+        "delete": "CASCADE"
+      },
+      "evaluation_date": {
+        "type": "DateField",
+        "null": false,
+        "blank": false
+      },
+      "month": {
+        "type": "IntegerField",
+        "null": false,
+        "blank": false
+      },
+      "year": {
+        "type": "IntegerField",
+        "null": false,
+        "blank": false
+      },
+      "completed_assignments": {
+        "type": "IntegerField",
+        "null": false,
+        "blank": false,
+        "default": 0
+      },
+      "late_assignments": {
+        "type": "IntegerField",
+        "null": false,
+        "blank": false,
+        "default": 0
+      },
+      "quality_score": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false
+      },
+      "reliability_score": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false
+      },
+      "teamwork_score": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false
+      },
+      "notes": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "PROTECT"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "production/packages": {
+    "table": "production_package",
+    "model": "production.package",
+    "fields": {
+      "package_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "name": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 100
+      },
+      "type": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 30,
+        "choices": [
+          "hourly_learning",
+          "per_minute_reels",
+          "outdoor_shoot"
+        ]
+      },
+      "description": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "default_rate": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false
+      },
+      "unit": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "choices": [
+          "hour",
+          "minute",
+          "session"
+        ]
+      },
+      "is_active": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "production/orders": {
+    "table": "production_productionorder",
+    "model": "production.productionorder",
+    "fields": {
+      "order_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "order_number": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "max_length": 50,
+        "readonly": true
+      },
+      "client": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "Client",
+        "delete": "PROTECT"
+      },
+      "package": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "Package",
+        "delete": "PROTECT"
+      },
+      "quantity": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false
+      },
+      "rate": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false
+      },
+      "total_amount": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false,
+        "readonly": true
+      },
+      "paid_amount": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false,
+        "default": "0"
+      },
+      "remaining_balance": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false,
+        "readonly": true
+      },
+      "status": {
+        "type": "FSMField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "default": "draft",
+        "choices": [
+          "draft",
+          "pending",
+          "in_progress",
+          "completed",
+          "delivered",
+          "closed",
+          "cancelled"
+        ]
+      },
+      "order_date": {
+        "type": "DateField",
+        "null": false,
+        "blank": false
+      },
+      "delivery_date": {
+        "type": "DateField",
+        "null": true,
+        "blank": true
+      },
+      "requirements": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "notes": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "is_financially_closed": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": false,
+        "readonly": true
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "PROTECT"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      },
+      "updated_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "production/assignments": {
+    "table": "production_productionassignment",
+    "model": "production.productionassignment",
+    "fields": {
+      "assignment_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "order": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "ProductionOrder",
+        "delete": "CASCADE"
+      },
+      "staff": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "StaffMember",
+        "delete": "PROTECT"
+      },
+      "role": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20
+      },
+      "assigned_date": {
+        "type": "DateField",
+        "null": false,
+        "blank": false
+      },
+      "deadline": {
+        "type": "DateField",
+        "null": false,
+        "blank": false
+      },
+      "completed_date": {
+        "type": "DateField",
+        "null": true,
+        "blank": true
+      },
+      "status": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "default": "pending",
+        "choices": [
+          "pending",
+          "in_progress",
+          "completed",
+          "late",
+          "cancelled"
+        ]
+      },
+      "notes": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      }
+    }
+  },
+  "production/deliveries": {
+    "table": "production_delivery",
+    "model": "production.delivery",
+    "fields": {
+      "delivery_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "order": {
+        "type": "OneToOneField",
+        "null": false,
+        "blank": false,
+        "target": "ProductionOrder",
+        "delete": "CASCADE"
+      },
+      "delivery_date": {
+        "type": "DateField",
+        "null": false,
+        "blank": false
+      },
+      "client_received_date": {
+        "type": "DateField",
+        "null": true,
+        "blank": true
+      },
+      "method": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "choices": [
+          "google_drive",
+          "dropbox",
+          "we_transfer",
+          "physical",
+          "direct_link",
+          "other"
+        ]
+      },
+      "delivery_link": {
+        "type": "URLField",
+        "null": false,
+        "blank": true
+      },
+      "status": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "default": "pending",
+        "choices": [
+          "pending",
+          "sent",
+          "received",
+          "failed"
+        ]
+      },
+      "notes": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "is_financially_closed": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": false,
+        "readonly": true
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "PROTECT"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "production/time-logs": {
+    "table": "production_timelog",
+    "model": "production.timelog",
+    "fields": {
+      "log_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "order": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "ProductionOrder",
+        "delete": "CASCADE"
+      },
+      "staff": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "StaffMember",
+        "delete": "PROTECT"
+      },
+      "hours": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false
+      },
+      "work_date": {
+        "type": "DateField",
+        "null": false,
+        "blank": false
+      },
+      "notes": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "scheduling/resources": {
+    "table": "scheduling_resource",
+    "model": "scheduling.resource",
+    "fields": {
+      "resource_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "name": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 100
+      },
+      "type": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "choices": [
+          "staff",
+          "equipment",
+          "venue",
+          "vehicle"
+        ]
+      },
+      "description": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "hourly_rate": {
+        "type": "DecimalField",
+        "null": true,
+        "blank": true
+      },
+      "is_active": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "color": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 7,
+        "default": "#4A90E2"
+      },
+      "capacity": {
+        "type": "PositiveIntegerField",
+        "null": false,
+        "blank": false,
+        "default": 1
+      }
+    }
+  },
+  "scheduling/appointments": {
+    "table": "scheduling_appointment",
+    "model": "scheduling.appointment",
+    "fields": {
+      "appointment_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "client": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "Client",
+        "delete": "PROTECT"
+      },
+      "project": {
+        "type": "ForeignKey",
+        "null": true,
+        "blank": false,
+        "target": "ProductionOrder",
+        "delete": "SET_NULL"
+      },
+      "resources": {
+        "type": "ManyToManyField",
+        "null": false,
+        "blank": true,
+        "target": "Resource"
+      },
+      "start_time": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false
+      },
+      "end_time": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false
+      },
+      "duration": {
+        "type": "DurationField",
+        "null": false,
+        "blank": false,
+        "readonly": true
+      },
+      "status": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "default": "pending",
+        "choices": [
+          "pending",
+          "confirmed",
+          "in_progress",
+          "completed",
+          "cancelled",
+          "no_show"
+        ]
+      },
+      "location": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 255
+      },
+      "notes": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "buffer_before": {
+        "type": "DurationField",
+        "null": false,
+        "blank": false,
+        "default": "00:15:00"
+      },
+      "buffer_after": {
+        "type": "DurationField",
+        "null": false,
+        "blank": false,
+        "default": "00:15:00"
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "PROTECT"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      },
+      "updated_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "scheduling/blocks": {
+    "table": "scheduling_resourceblock",
+    "model": "scheduling.resourceblock",
+    "fields": {
+      "resource": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "Resource",
+        "delete": "CASCADE"
+      },
+      "start_time": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false
+      },
+      "end_time": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false
+      },
+      "block_type": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "choices": [
+          "maintenance",
+          "vacation",
+          "holiday",
+          "other"
+        ]
+      },
+      "reason": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 255
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "PROTECT"
+      }
+    }
+  },
+  "finance/payments": {
+    "table": "finance_payment",
+    "model": "finance.payment",
+    "fields": {
+      "payment_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "order": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "ProductionOrder",
+        "delete": "PROTECT"
+      },
+      "client": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "Client",
+        "delete": "PROTECT"
+      },
+      "amount": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false
+      },
+      "payment_date": {
+        "type": "DateField",
+        "null": false,
+        "blank": false
+      },
+      "method": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "choices": [
+          "vodafone_cash",
+          "instapay",
+          "cash"
+        ]
+      },
+      "reference": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 100
+      },
+      "notes": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "is_deposit": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": false
+      },
+      "resulting_balance": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false,
+        "readonly": true
+      },
+      "recorded_by": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "PROTECT"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "finance/expense-categories": {
+    "table": "finance_expensecategory",
+    "model": "finance.expensecategory",
+    "fields": {
+      "category_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "name": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 50
+      },
+      "category_type": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "default": "custom",
+        "choices": [
+          "internet",
+          "office_rent",
+          "electricity",
+          "custom"
+        ]
+      },
+      "description": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "is_recurring": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": false
+      },
+      "recurring_interval": {
+        "type": "CharField",
+        "null": true,
+        "blank": true,
+        "max_length": 20,
+        "choices": [
+          "daily",
+          "weekly",
+          "monthly",
+          "quarterly",
+          "yearly"
+        ]
+      },
+      "is_active": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "PROTECT"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "finance/expenses": {
+    "table": "finance_expense",
+    "model": "finance.expense",
+    "fields": {
+      "expense_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "category": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "ExpenseCategory",
+        "delete": "PROTECT"
+      },
+      "method": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 20,
+        "default": "purchasing",
+        "choices": [
+          "purchasing",
+          "withdraw"
+        ]
+      },
+      "amount": {
+        "type": "DecimalField",
+        "null": false,
+        "blank": false
+      },
+      "expense_date": {
+        "type": "DateField",
+        "null": false,
+        "blank": false
+      },
+      "description": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "receipt": {
+        "type": "FileField",
+        "null": true,
+        "blank": true
+      },
+      "is_recurring": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": false
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "PROTECT"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "finance/attachments": {
+    "table": "finance_attachment",
+    "model": "finance.attachment",
+    "fields": {
+      "attachment_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "client": {
+        "type": "ForeignKey",
+        "null": true,
+        "blank": false,
+        "target": "Client",
+        "delete": "CASCADE"
+      },
+      "order": {
+        "type": "ForeignKey",
+        "null": true,
+        "blank": false,
+        "target": "ProductionOrder",
+        "delete": "CASCADE"
+      },
+      "file": {
+        "type": "FileField",
+        "null": false,
+        "blank": false
+      },
+      "filename": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 255
+      },
+      "file_type": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 50
+      },
+      "file_size": {
+        "type": "PositiveIntegerField",
+        "null": false,
+        "blank": false
+      },
+      "description": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 255
+      },
+      "is_shareable": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": false
+      },
+      "share_token": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "uploaded_by": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "PROTECT"
+      },
+      "uploaded_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "finance/settings": {
+    "table": "finance_businesssettings",
+    "model": "finance.businesssettings",
+    "fields": {
+      "business_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "name": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 200
+      },
+      "logo": {
+        "type": "ImageField",
+        "null": true,
+        "blank": true
+      },
+      "currency": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 3,
+        "default": "EGP"
+      },
+      "timezone": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 50,
+        "default": "Africa/Cairo"
+      },
+      "language": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 2,
+        "default": "en",
+        "choices": [
+          "en",
+          "ar"
+        ]
+      },
+      "theme": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 10,
+        "default": "light",
+        "choices": [
+          "light",
+          "dark"
+        ]
+      },
+      "address": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "phone": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 17
+      },
+      "email": {
+        "type": "EmailField",
+        "null": false,
+        "blank": true
+      },
+      "website": {
+        "type": "URLField",
+        "null": false,
+        "blank": true
+      },
+      "tax_number": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 50
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      },
+      "updated_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "toolkit/scripts": {
+    "table": "toolkit_scripttemplate",
+    "model": "toolkit.scripttemplate",
+    "fields": {
+      "template_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "category": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 30,
+        "choices": [
+          "cold_outreach",
+          "follow_up",
+          "quote_pricing",
+          "objection_handling",
+          "renewal",
+          "referral",
+          "social_caption"
+        ]
+      },
+      "title": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 150
+      },
+      "body": {
+        "type": "TextField",
+        "null": false,
+        "blank": false
+      },
+      "is_active": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": true,
+        "blank": true,
+        "target": "User",
+        "delete": "SET_NULL"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      },
+      "updated_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "toolkit/report-drafts": {
+    "table": "toolkit_reportdraft",
+    "model": "toolkit.reportdraft",
+    "fields": {
+      "token": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "title": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 200
+      },
+      "category": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 30,
+        "default": "custom",
+        "choices": [
+          "medical",
+          "multi_category",
+          "business",
+          "education",
+          "custom"
+        ]
+      },
+      "description": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 300
+      },
+      "file": {
+        "type": "FileField",
+        "null": false,
+        "blank": false
+      },
+      "file_type": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 10,
+        "readonly": true,
+        "choices": [
+          "html",
+          "doc",
+          "docx"
+        ]
+      },
+      "is_active": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "view_count": {
+        "type": "PositiveIntegerField",
+        "null": false,
+        "blank": false,
+        "default": 0
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": true,
+        "blank": true,
+        "target": "User",
+        "delete": "SET_NULL"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      },
+      "updated_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "toolkit/service-profiles": {
+    "table": "toolkit_serviceprofile",
+    "model": "toolkit.serviceprofile",
+    "fields": {
+      "profile_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "client_type": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 30
+      },
+      "title": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 150
+      },
+      "typical_needs": {
+        "type": "TextField",
+        "null": false,
+        "blank": false
+      },
+      "recommended_packages": {
+        "type": "ManyToManyField",
+        "null": false,
+        "blank": true,
+        "target": "Package"
+      },
+      "suggested_script": {
+        "type": "ForeignKey",
+        "null": true,
+        "blank": true,
+        "target": "ScriptTemplate",
+        "delete": "SET_NULL"
+      },
+      "is_active": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "created_by": {
+        "type": "ForeignKey",
+        "null": true,
+        "blank": true,
+        "target": "User",
+        "delete": "SET_NULL"
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      },
+      "updated_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "notifications": {
+    "table": "notifications_notification",
+    "model": "notifications.notification",
+    "fields": {
+      "notification_id": {
+        "type": "UUIDField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "generate": "uuid",
+        "readonly": true
+      },
+      "user": {
+        "type": "ForeignKey",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "CASCADE"
+      },
+      "type": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 50,
+        "choices": [
+          "schedule_conflict",
+          "upcoming_session",
+          "new_deposit",
+          "outstanding_balance",
+          "pending_production",
+          "delivery_status",
+          "operational_reminder"
+        ]
+      },
+      "title": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "max_length": 200
+      },
+      "title_ar": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 200
+      },
+      "message": {
+        "type": "TextField",
+        "null": false,
+        "blank": false
+      },
+      "message_ar": {
+        "type": "TextField",
+        "null": false,
+        "blank": true
+      },
+      "deep_link": {
+        "type": "CharField",
+        "null": false,
+        "blank": true,
+        "max_length": 500
+      },
+      "idempotency_key": {
+        "type": "CharField",
+        "null": false,
+        "blank": false,
+        "unique": true,
+        "max_length": 255
+      },
+      "is_read": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": false
+      },
+      "read_at": {
+        "type": "DateTimeField",
+        "null": true,
+        "blank": true
+      },
+      "metadata": {
+        "type": "JSONField",
+        "null": false,
+        "blank": true,
+        "default": {}
+      },
+      "created_at": {
+        "type": "DateTimeField",
+        "null": false,
+        "blank": false,
+        "generate": "now",
+        "readonly": true
+      }
+    }
+  },
+  "notifications/preferences": {
+    "table": "notifications_notificationpreference",
+    "model": "notifications.notificationpreference",
+    "fields": {
+      "user": {
+        "type": "OneToOneField",
+        "null": false,
+        "blank": false,
+        "target": "User",
+        "delete": "CASCADE"
+      },
+      "enable_browser": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "enable_pwa": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "email_notifications": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": false
+      },
+      "schedule_conflicts": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "upcoming_sessions": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "new_deposits": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "outstanding_balances": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "pending_production": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "delivery_status": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      },
+      "operational_reminders": {
+        "type": "BooleanField",
+        "null": false,
+        "blank": false,
+        "default": true
+      }
+    }
+  }
+}

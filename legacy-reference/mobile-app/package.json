@@ -1,0 +1,22 @@
+{
+  "name": "smart-shoots-mobile",
+  "version": "1.0.0",
+  "description": "SMART SHOOTS wrapped as a native Android app (Capacitor) - talks to the same Django backend over the local network.",
+  "private": true,
+  "scripts": {
+    "sync": "npx cap sync android",
+    "open": "npx cap open android",
+    "prebuild:frontend": "cd ../frontend && npm run build:mobile",
+    "verify": "node verify-build.js",
+    "clean": "node -e \"const fs=require('fs');['../frontend/dist-mobile','android/app/src/main/assets/public'].forEach(p=>fs.rmSync(p,{recursive:true,force:true}))\"",
+    "build:apk": "npm run clean && npm run prebuild:frontend && npm run verify && npx cap sync android && cd android && (test -f gradlew.bat && gradlew.bat assembleDebug || ./gradlew assembleDebug)"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@capacitor/android": "^8.5.1",
+    "@capacitor/cli": "^8.5.1",
+    "@capacitor/core": "^8.5.1"
+  }
+}

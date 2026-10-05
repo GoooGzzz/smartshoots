@@ -1,0 +1,10 @@
+{
+  "name": "smartshoots-cloud-app",
+  "private": true,
+  "scripts": {
+    "build": "npm ci --prefix frontend && npm run build:web --prefix frontend && npm ci --prefix cloudflare",
+    "test": "npm test --prefix cloudflare",
+    "deploy": "node cloudflare/scripts/configure.mjs && npm run migrate --prefix cloudflare && npm run deploy --prefix cloudflare"
+  },
+  "engines": { "node": ">=22" }
+}

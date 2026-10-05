@@ -1,0 +1,4 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {orderTotal,scaled,overlaps,passwordHash,verifyPassword} from '../src/core.js';
+test('decimal multiplication and rounding',()=>{assert.equal(orderTotal('1.25','199.99'),'249.99');assert.equal(orderTotal('0.10','0.20'),'0.02');assert.throws(()=>scaled('NaN'));assert.throws(()=>orderTotal('0','3'));});
+test('buffers participate in booking conflicts',()=>{const a={start_time:'2026-10-05T10:00:00Z',end_time:'2026-10-05T11:00:00Z'},b={start_time:'2026-10-05T11:20:00Z',end_time:'2026-10-05T12:00:00Z'};assert.equal(overlaps(a,b),true);b.start_time='2026-10-05T11:30:00Z';assert.equal(overlaps(a,b),false);});
+test('passwords use salted hashes',async()=>{const h=await passwordHash('correct-long-password');assert.ok(await verifyPassword('correct-long-password',h));assert.equal(await verifyPassword('wrong-password',h),false);assert.notEqual(h,await passwordHash('correct-long-password'));});

@@ -1,7 +1,7 @@
 /* SMART SHOOTS service worker - app-shell + runtime caching so the web/PWA
    build opens instantly and keeps working with no connection. API data is
    NOT handled here (the app's own cache + write queue does that). */
-const V = 'v2'; // NEW: bump this on every release so old cached bundles are dropped automatically
+const V = 'cloud-v1'; // NEW: bump this on every release so old cached bundles are dropped automatically
 const SHELL = 'ss-shell-' + V, RUNTIME = 'ss-runtime-' + V, CDN = 'ss-cdn-' + V;
 const CDN_HOSTS = ['cdn.tailwindcss.com', 'cdnjs.cloudflare.com', 'fonts.googleapis.com', 'fonts.gstatic.com'];
 
@@ -52,7 +52,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
 
   if (url.origin === self.location.origin) {
-    if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/admin/')) return;
+    if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/admin/') || url.pathname.startsWith('/files/') || url.pathname.startsWith('/r/')) return;
     if (req.mode === 'navigate') {
       if (url.pathname.startsWith('/r/')) { event.respondWith(networkFirst(req, RUNTIME)); return; }
       event.respondWith(networkFirst(req, SHELL, '/')); // SPA: offline -> cached index

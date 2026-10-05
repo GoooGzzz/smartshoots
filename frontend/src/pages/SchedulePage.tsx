@@ -60,13 +60,14 @@ export default function SchedulePage() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['appointments'] }),
   });
 
+  const localInput = (value: string) => { const d = new Date(value); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16); };
   const handleOpen = (appt?: any) => {
     if (appt) {
       setEditingAppt(appt);
       setFormData({
         client: appt.client,
-        start_time: appt.start_time,
-        end_time: appt.end_time,
+        start_time: localInput(appt.start_time),
+        end_time: localInput(appt.end_time),
         status: appt.status,
         location: appt.location,
         notes: appt.notes,
@@ -96,8 +97,8 @@ export default function SchedulePage() {
     // them explicitly so the payload is unambiguous ISO-8601 either way.
     const payload = {
       ...formData,
-      start_time: formData.start_time.length === 16 ? `${formData.start_time}:00` : formData.start_time,
-      end_time: formData.end_time.length === 16 ? `${formData.end_time}:00` : formData.end_time,
+      start_time: new Date(formData.start_time).toISOString(),
+      end_time: new Date(formData.end_time).toISOString(),
     };
     if (editingAppt) updateMutation.mutate({ ...payload, id: editingAppt.id });
     else createMutation.mutate(payload);
