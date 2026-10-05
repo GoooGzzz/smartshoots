@@ -8,5 +8,22 @@
   "facebook": "https://www.facebook.com/people/Smart-Shoots",
   "maps_query": "46 Mansour Sherif Street Helwan Metro Station Cairo Egypt",
   "brand_tagline": "A Creative Production Studio",
-  "work_samples": []
+  "work_samples": [],
+  "studio_film": "",
+  "studio_photo": "",
+  "testimonials": [],
+  "tour_hotspots": {
+    "display": {
+      "x": 52,
+      "y": 40
+    },
+    "camera": {
+      "x": 84,
+      "y": 76
+    },
+    "audio": {
+      "x": 11,
+      "y": 66
+    }
+  }
 }
