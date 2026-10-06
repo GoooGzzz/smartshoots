@@ -114,7 +114,7 @@ export default function DashboardPage() {
       <Grid container spacing={3}>
         {stats.map((stat, idx) => (
           <Grid item xs={12} sm={6} md={3} key={idx}>
-            <Card sx={raised3d(stat.color)}>
+            <Card data-score-card="true" sx={raised3d(stat.color)}>
               <CardContent>
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <Box sx={{
