@@ -3,3 +3,5 @@ html{scroll-padding-top:90px}.journey h2{font-size:clamp(2rem,4.4vw,4.4rem);line
 .work-motion-card{padding:22px;border:1px solid #bcc6d1;border-radius:20px;background:#f5f7fa;color:#10233d}.work-motion-card img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px}.work-motion-card h3{font-size:1.5rem}.work-motion-card video{border-radius:12px}#wizard-summary{white-space:pre-line;padding:20px;border-radius:14px;background:#eef2f6;color:#10233d;line-height:1.6}
 
 #delivery-video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:contain;border-radius:16px;background:#071426;}
+
+#delivery-video{aspect-ratio:3/4;width:100%;max-width:465px;max-height:620px;margin-inline:auto;object-fit:contain;}
