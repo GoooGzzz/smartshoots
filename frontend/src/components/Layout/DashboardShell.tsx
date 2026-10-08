@@ -4,7 +4,6 @@ import {
   Box, Drawer, AppBar, Toolbar, IconButton, List, ListItem,
   ListItemIcon, ListItemText, Typography, useMediaQuery, useTheme, Tooltip,
 } from '@mui/material';
-import { keyframes } from '@emotion/react';
 import {
   Menu as MenuIcon, Dashboard as DashboardIcon, CalendarMonth,
   Receipt, People, Assessment, Settings, Payment as PaymentIcon,
@@ -22,96 +21,8 @@ import { startOfflinePrefetch } from '../../utils/offlinePrefetch';
 const DRAWER_WIDTH = 260;
 const COLLAPSED_WIDTH = 72;
 
-function CameraLogo() {
-  return (
-    // NEW: replaced the flat, single-color camera icon with a genuinely
-    // dimensional one - a gradient body (not a flat fill) for a rounded,
-    // lit-from-above look, a metallic lens ring, and a small glint that
-    // pulses like a real reflection catching light. The whole mark
-    // tilts and lifts slightly on hover for a tactile, "pick me up"
-    // feel instead of sitting completely static.
-    <Box
-      sx={{
-        display: 'inline-flex', mr: 1, cursor: 'default',
-        transition: 'transform .35s cubic-bezier(.34,1.56,.64,1)',
-        transform: 'perspective(300px) rotateY(0deg)',
-        '&:hover': { transform: 'perspective(300px) rotateY(-12deg) scale(1.08)' },
-      }}
-    >
-      <svg width="38" height="38" viewBox="0 0 512 512" style={{ filter: 'drop-shadow(0 4px 8px rgba(181, 72, 42,0.55))' }}>
-        <defs>
-          <linearGradient id="camBody" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#8B6FFF" />
-            <stop offset="55%" stopColor="#5B3FD6" />
-            <stop offset="100%" stopColor="#3B2496" />
-          </linearGradient>
-          <linearGradient id="camTop" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#A78BFF" />
-            <stop offset="100%" stopColor="#173c60" />
-          </linearGradient>
-          <radialGradient id="lensRing" cx="35%" cy="35%" r="70%">
-            <stop offset="0%" stopColor="#EDE8FF" />
-            <stop offset="55%" stopColor="#B9A8FF" />
-            <stop offset="100%" stopColor="#173c60" />
-          </radialGradient>
-          <radialGradient id="lensGlass" cx="35%" cy="30%" r="75%">
-            <stop offset="0%" stopColor="#7FE0FF" />
-            <stop offset="45%" stopColor="#2C63C9" />
-            <stop offset="100%" stopColor="#161E4A" />
-          </radialGradient>
-          <radialGradient id="glint" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-        <rect x="192" y="140" width="128" height="36" rx="10" fill="url(#camTop)" />
-        <rect x="64" y="172" width="384" height="204" rx="28" fill="url(#camBody)" />
-        <rect x="64" y="172" width="384" height="18" rx="9" fill="#ffffff" opacity="0.18" />
-        <circle cx="256" cy="272" r="78" fill="url(#lensRing)" />
-        <circle cx="256" cy="272" r="54" fill="url(#lensGlass)" />
-        <circle cx="235" cy="250" r="14" fill="url(#glint)">
-          <animate attributeName="opacity" values="0.5;1;0.5" dur="2.6s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="400" cy="204" r="10" fill="#FFD86E" />
-      </svg>
-    </Box>
-  );
-}
-
-// NEW: an animated, multi-color gradient that sweeps across the "SMART
-// SHOOTS" wordmark, plus a stack of translucent text-shadows underneath
-// the gradient-filled text to fake letterpress/3D extrusion depth.
-const gradientSweep = keyframes`
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-`;
-
-function AppTitle({ text }: { text: string }) {
-  return (
-    <Typography
-      variant="h6"
-      noWrap
-      component="div"
-      sx={{
-        fontWeight: 900,
-        ml: 1,
-        letterSpacing: 1.5,
-        fontSize: { xs: '1.1rem', sm: '1.35rem' },
-        backgroundImage: 'linear-gradient(90deg, #FFD86E, #FF6EC7, #6EC6FF, #6EFFB3, #FFD86E)',
-        backgroundSize: '300% 100%',
-        WebkitBackgroundClip: 'text',
-        backgroundClip: 'text',
-        color: 'transparent',
-        animation: `${gradientSweep} 6s ease infinite`,
-        textShadow: '0 1px 0 rgba(0,0,0,0.35), 0 2px 2px rgba(0,0,0,0.25), 0 5px 8px rgba(0,0,0,0.35)',
-        filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.35))',
-      }}
-    >
-      {text}
-    </Typography>
-  );
-}
+function CameraLogo(){return <Box component="img" src="/profile/brand-logo.webp" alt="SMART SHOOTS" sx={{width:42,height:42,mr:1,objectFit:'contain'}} />;}
+function AppTitle({text}:{text:string}){return <Typography variant="h6" noWrap sx={{fontWeight:800,fontSize:{xs:'1rem',sm:'1.25rem'},letterSpacing:'.02em',color:'#F5F1E8'}}>{text}</Typography>;}
 
 // NEW: 3D "beveled panel" digital clock - a raised, glassy plate with an
 // inset dark well behind the digits and a bright top highlight, replacing
@@ -190,20 +101,20 @@ export default function DashboardShell() {
 
   const menuItems = [
     ...(['owner','admin'].includes(user?.role) ? [{ path:'/studio',label:isRTL?'إدارة الاستوديو':'Studio control',icon:<People />,color:'#10233D' }] : []),
-    ...(['owner','admin'].includes(user?.role) ? [{ path: '/academy', label: isRTL ? 'الاستوديو الأكاديمي' : 'Academic Studio', icon: <People />, color: '#10233D' }] : []),
-    ...(['owner','admin'].includes(user?.role) ? [{ path: '/delivery', label: isRTL ? 'تسجيلات العملاء' : 'Client recordings', icon: <AttachFile />, color: '#B28A3D' }] : []),
-    { path: '/', label: t('dashboard'), icon: <DashboardIcon />, color: '#173c60' },
-    { path: '/clients', label: t('clients'), icon: <People />, color: '#2196F3' },
-    { path: '/orders', label: t('orders'), icon: <Receipt />, color: '#FF9800' },
-    { path: '/schedule', label: t('schedule'), icon: <CalendarMonth />, color: '#00BCD4' },
-    { path: '/payments', label: t('payments'), icon: <PaymentIcon />, color: '#4CAF50' },
-    { path: '/expenses', label: t('expenses'), icon: <MoneyOff />, color: '#F44336' },
-    { path: '/reports', label: t('reports'), icon: <Assessment />, color: '#9C27B0' },
-    { path: '/tools', label: t('tools'), icon: <AutoAwesome />, color: '#10233d' },
-    { path: '/settings', label: t('settings'), icon: <Settings />, color: '#607D8B' },
-    { path: '/time-tracking', label: t('timeTracking'), icon: <Timer />, color: '#FF6E9C' },
-    { path: '/attachments', label: t('attachments'), icon: <AttachFile />, color: '#795548' },
-    { path: '/progress', label: t('progress'), icon: <Timeline />, color: '#00C896' },
+    ...(['owner','admin'].includes(user?.role) ? [{ path: '/academy', label: isRTL ? 'الاستوديو الأكاديمي' : 'Academic Studio', icon: <People />, color: '#AC482D' }] : []),
+    ...(['owner','admin'].includes(user?.role) ? [{ path: '/delivery', label: isRTL ? 'تسجيلات العملاء' : 'Client recordings', icon: <AttachFile />, color: '#AC482D' }] : []),
+    { path: '/', label: t('dashboard'), icon: <DashboardIcon />, color: '#AC482D' },
+    { path: '/clients', label: t('clients'), icon: <People />, color: '#AC482D' },
+    { path: '/orders', label: t('orders'), icon: <Receipt />, color: '#AC482D' },
+    { path: '/schedule', label: t('schedule'), icon: <CalendarMonth />, color: '#AC482D' },
+    { path: '/payments', label: t('payments'), icon: <PaymentIcon />, color: '#AC482D' },
+    { path: '/expenses', label: t('expenses'), icon: <MoneyOff />, color: '#AC482D' },
+    { path: '/reports', label: t('reports'), icon: <Assessment />, color: '#AC482D' },
+    { path: '/tools', label: t('tools'), icon: <AutoAwesome />, color: '#AC482D' },
+    { path: '/settings', label: t('settings'), icon: <Settings />, color: '#AC482D' },
+    { path: '/time-tracking', label: t('timeTracking'), icon: <Timer />, color: '#AC482D' },
+    { path: '/attachments', label: t('attachments'), icon: <AttachFile />, color: '#AC482D' },
+    { path: '/progress', label: t('progress'), icon: <Timeline />, color: '#AC482D' },
   ];
 
   const drawerContent = (
@@ -230,7 +141,7 @@ export default function DashboardShell() {
                   mb: 1, borderRadius: 3,
                   justifyContent: collapsed ? 'center' : 'flex-start',
                   px: collapsed ? 0 : 1.75, py: 1.1,
-                  color: isActive ? '#fff' : 'text.primary',
+                  color: isActive ? 'primary.main' : 'text.primary',
                   position: 'relative', overflow: 'hidden',
                   transition: 'transform .18s ease, box-shadow .18s ease, background .18s ease',
                   // NEW: every nav item now reads as a physical 3D button -
@@ -238,17 +149,15 @@ export default function DashboardShell() {
                   // "presses in" (inset shadow, no lift) when it's the
                   // active page, and lifts further on hover for anything
                   // that isn't already selected.
-                  background: isActive
-                    ? `linear-gradient(160deg, ${item.color}, ${item.color}CC)`
-                    : `linear-gradient(160deg, ${item.color}0F 0%, transparent 60%)`,
+                  background: isActive ? 'rgba(172,72,45,0.09)' : 'transparent',
                   boxShadow: isActive
                     ? `inset 0 2px 4px rgba(0,0,0,0.25), inset 0 -1px 0 rgba(255,255,255,0.15), 0 6px 14px -6px ${item.color}88`
                     : `0 1px 0 rgba(255,255,255,0.5) inset`,
                   '&:hover': {
                     transform: isActive ? 'none' : 'translateY(-2px)',
                     background: isActive
-                      ? `linear-gradient(160deg, ${item.color}, ${item.color}CC)`
-                      : `linear-gradient(160deg, ${item.color}22 0%, transparent 65%)`,
+                      ? 'none'
+                      : 'none',
                     boxShadow: isActive
                       ? `inset 0 2px 4px rgba(0,0,0,0.25), inset 0 -1px 0 rgba(255,255,255,0.15), 0 6px 14px -6px ${item.color}88`
                       : `0 10px 18px -10px ${item.color}66`,
@@ -267,7 +176,7 @@ export default function DashboardShell() {
                     color: '#fff', minWidth: collapsed ? 0 : 40, justifyContent: 'center',
                     width: 30, height: 30, borderRadius: 1.75,
                     display: 'flex', alignItems: 'center',
-                    background: isActive ? 'rgba(255,255,255,0.22)' : `linear-gradient(145deg, ${item.color}, ${item.color}AA)`,
+                    background: isActive ? 'rgba(255,255,255,0.22)' : 'none',
                     boxShadow: isActive ? 'none' : `0 4px 8px -3px ${item.color}99, inset 0 1px 1px rgba(255,255,255,0.5)`,
                   }}
                 >
@@ -295,7 +204,7 @@ export default function DashboardShell() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundImage: 'linear-gradient(90deg, #10233d 0%, #173c60 100%)' }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundImage: 'none', backgroundColor:'#252421' }}>
         <Toolbar>
           <IconButton color="inherit" edge="start" onClick={() => { if (isMobile) setMobileOpen(!mobileOpen); else setCollapsed(!collapsed); }} sx={{ mr: 2 }}>
             {isMobile ? <MenuIcon /> : (collapsed ? (isRTL ? <ChevronLeft /> : <ChevronRight />) : (isRTL ? <ChevronRight /> : <ChevronLeft />))}
@@ -365,11 +274,11 @@ export default function DashboardShell() {
             position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: (t) => t.zIndex.drawer + 2,
             display: 'flex', justifyContent: 'space-around', alignItems: 'stretch',
             pb: 'env(safe-area-inset-bottom, 0px)',
-            backgroundImage: 'linear-gradient(180deg, #132a44 0%, #0b182a 100%)',
+            backgroundImage: 'none', backgroundColor:'#252421',
             boxShadow: '0 -6px 20px -6px rgba(0,0,0,0.4)',
           }}
         >
-          {[...menuItems.slice(0, 4), { path: '__more__', label: t('more'), icon: <MenuIcon />, color: '#9E8CF5' }].map((item) => {
+          {[...menuItems.slice(0, 4), { path: '__more__', label: t('more'), icon: <MenuIcon />, color: '#AC482D' }].map((item) => {
             const isActive = item.path === '__more__' ? mobileOpen : location.pathname === item.path;
             return (
               <Box
@@ -385,7 +294,7 @@ export default function DashboardShell() {
                 <Box
                   sx={{
                     width: 34, height: 34, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    backgroundImage: isActive ? `radial-gradient(circle, ${item.color}55 0%, transparent 70%)` : 'none',
+                    backgroundImage: isActive ? 'none' : 'none',
                     boxShadow: isActive ? `0 0 0 1px ${item.color}88, 0 0 10px ${item.color}66` : 'none',
                     transform: isActive ? 'translateY(-2px)' : 'none',
                     transition: 'transform 0.15s ease, box-shadow 0.15s ease',

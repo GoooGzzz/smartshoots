@@ -19,18 +19,7 @@ const COLORS = ['#4CAF50', '#FF9800', '#2196F3', '#F44336'];
 // Reusable "3D" card treatment: a soft gradient face, a bright top-edge
 // highlight, and a layered shadow stack (a tight dark shadow plus a wider
 // soft one) to fake real depth instead of MUI's flat default elevation.
-const raised3d = (accent: string) => ({
-  position: 'relative' as const,
-  borderRadius: 3,
-  background: `linear-gradient(160deg, ${accent}14 0%, transparent 55%)`,
-  boxShadow: `0 1px 0 rgba(255,255,255,0.6) inset, 0 18px 30px -12px ${accent}55, 0 4px 10px -4px rgba(0,0,0,0.25)`,
-  border: `1px solid ${accent}30`,
-  transition: 'transform .25s ease, box-shadow .25s ease',
-  '&:hover': {
-    transform: 'translateY(-4px)',
-    boxShadow: `0 1px 0 rgba(255,255,255,0.7) inset, 0 26px 40px -14px ${accent}66, 0 8px 16px -6px rgba(0,0,0,0.3)`,
-  },
-});
+const raised3d = (_accent:string)=>({borderRadius:2,background:'background.paper',boxShadow:'none',border:'1px solid',borderColor:'divider'});
 
 export default function DashboardPage() {
   const { t } = useTranslation();
@@ -81,9 +70,7 @@ export default function DashboardPage() {
       {/* NEW: greeting hero - time-aware welcome, live sync status, and
           one-tap shortcuts to the things done most. */}
       <Card sx={{ mb: 3, position: 'relative', overflow: 'hidden', color: '#fff', border: 'none',
-        background: 'linear-gradient(135deg, #0b182a 0%, #10233d 55%, #345a7c 100%)' }}>
-        <Box sx={{ position: 'absolute', width: 260, height: 260, borderRadius: '50%', top: -90, right: -60, background: 'radial-gradient(circle, rgba(245,165,36,0.55), transparent 70%)' }} />
-        <Box sx={{ position: 'absolute', width: 220, height: 220, borderRadius: '50%', bottom: -110, left: '30%', background: 'radial-gradient(circle, rgba(124,92,255,0.6), transparent 70%)' }} />
+        background: '#252421' }}>
         <CardContent sx={{ position: 'relative', p: { xs: 2.5, sm: 3.5 } }}>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1.5, alignItems: 'center', justifyContent: 'space-between' }}>
             <Box>
@@ -120,10 +107,10 @@ export default function DashboardPage() {
                   <Box sx={{
                     width: 52, height: 52, borderRadius: 2.5, mr: 2,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    background: `linear-gradient(145deg, ${stat.color}, ${stat.color}99)`,
-                    boxShadow: `0 6px 14px -4px ${stat.color}88, inset 0 1px 1px rgba(255,255,255,0.5)`,
+                    background:'rgba(172,72,45,0.1)',
+                    boxShadow:'none',
                   }}>
-                    {React.cloneElement(stat.icon, { sx: { color: '#fff' } })}
+                    {React.cloneElement(stat.icon, { sx: { color: 'primary.main' } })}
                   </Box>
                 </Box>
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>

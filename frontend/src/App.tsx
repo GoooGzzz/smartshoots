@@ -79,20 +79,20 @@ function AppContent() {
       // FIX/NEW: away from the generic "purple/blue-black SaaS" look -
       // warm ink + paper + a confident terracotta accent, fitting a
       // photography studio brand rather than a generic dashboard template.
-      primary: { main: '#173c60', light: '#355d80', dark: '#10233d', contrastText: '#FFFFFF' },
-      secondary: { main: '#F5A524', light: '#FFC466', dark: '#C67E0A', contrastText: '#1A1A1A' },
+      primary: { main: '#AC482D', light: '#C66649', dark: '#803521', contrastText: '#FFFFFF' },
+      secondary: { main: '#A17B35', light: '#C8A55D', dark: '#78591E', contrastText: '#1A1A1A' },
       success: { main: '#10B981' },
       warning: { main: '#F59E0B' },
       error: { main: '#EF4444' },
       background: darkMode
-        ? { default: '#0B1625', paper: '#122238' }
-        : { default: '#F5F7FA', paper: '#FFFFFF' },
+        ? { default: '#1E1C19', paper: '#282521' }
+        : { default: '#F5F1E8', paper: '#FFFFFF' },
       text: darkMode
-        ? { primary: '#F4F7FC', secondary: '#B6C4D7' }
-        : { primary: '#152238', secondary: '#526176' },
+        ? { primary: '#F5F1E8', secondary: '#C9C2B6' }
+        : { primary: '#252421', secondary: '#686259' },
       divider: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(33,28,22,0.08)',
     },
-    shape: { borderRadius: 12 },
+    shape: { borderRadius: 8 },
     typography: {
       fontFamily: isRTL ? "'Cairo', Tahoma, sans-serif" : "'Plus Jakarta Sans', -apple-system, sans-serif",
       h4: { fontWeight: 800, letterSpacing: '-0.02em' },
@@ -123,9 +123,9 @@ function AppContent() {
             // gradient-on-every-button look was part of what read as
             // "generic SaaS template" rather than a distinct brand.
             backgroundImage: 'none',
-            backgroundColor: '#10233d',
+            backgroundColor: '#803521',
             boxShadow: '0 6px 16px -4px rgba(17,43,72, 0.45)',
-            '&:hover': { backgroundImage: 'none', backgroundColor: '#25496b' },
+            '&:hover': { backgroundImage: 'none', backgroundColor: '#8D3923' },
           },
         },
       },
