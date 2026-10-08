@@ -85,11 +85,11 @@ function AppContent() {
       warning: { main: '#F59E0B' },
       error: { main: '#EF4444' },
       background: darkMode
-        ? { default: '#171512', paper: '#221E19' }
-        : { default: '#FAF7F2', paper: '#FFFFFF' },
+        ? { default: '#0B1625', paper: '#122238' }
+        : { default: '#F5F7FA', paper: '#FFFFFF' },
       text: darkMode
-        ? { primary: '#F3EEE7', secondary: '#B4A99C' }
-        : { primary: '#211C16', secondary: '#6B6258' },
+        ? { primary: '#F4F7FC', secondary: '#B6C4D7' }
+        : { primary: '#152238', secondary: '#526176' },
       divider: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(33,28,22,0.08)',
     },
     shape: { borderRadius: 12 },
@@ -101,7 +101,7 @@ function AppContent() {
       button: { fontWeight: 600, letterSpacing: '0.01em' },
     },
     shadows: Array(25).fill('none').map((_, i) => i === 0 ? 'none' :
-      `0 ${Math.min(i * 1.5, 24)}px ${Math.min(i * 3, 48)}px -${Math.min(i, 12)}px rgba(181,72,42,${darkMode ? 0.35 : 0.12})`,
+      `0 ${Math.min(i * 1.5, 24)}px ${Math.min(i * 3, 48)}px -${Math.min(i, 12)}px rgba(17,43,72,${darkMode ? 0.35 : 0.12})`,
     ) as any,
     components: {
       MuiCard: {
@@ -110,7 +110,7 @@ function AppContent() {
             borderRadius: 18,
             boxShadow: darkMode
               ? '0 8px 24px -8px rgba(0,0,0,0.5)'
-              : '0 8px 24px -8px rgba(181, 72, 42,0.15)',
+              : '0 8px 24px -8px rgba(17,43,72,0.15)',
             border: darkMode ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(31,27,46,0.04)',
           },
         },
@@ -124,7 +124,7 @@ function AppContent() {
             // "generic SaaS template" rather than a distinct brand.
             backgroundImage: 'none',
             backgroundColor: '#10233d',
-            boxShadow: '0 6px 16px -4px rgba(181, 72, 42, 0.45)',
+            boxShadow: '0 6px 16px -4px rgba(17,43,72, 0.45)',
             '&:hover': { backgroundImage: 'none', backgroundColor: '#25496b' },
           },
         },
