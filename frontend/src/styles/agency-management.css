@@ -1,0 +1,23 @@
+/* Agency direction: management and all studio login roles. */
+.ss-page {color:inherit}
+.ss-page h1,.ss-page h2,.ss-page h3,.ss-page h4 {
+ font-weight:800;letter-spacing:-.025em;line-height:1.3;
+ text-shadow:0 2px 0 #272c4009;
+}
+.ss-page .MuiPaper-root {border-radius:16px;box-shadow:0 12px 28px #181d2e0a}
+.ss-page .MuiButton-containedPrimary {background:#d90909;color:#fff}
+.ss-page .MuiButton-containedPrimary:hover {background:#b40707}
+.studio-login {background:#fff!important;color:#272c40!important}
+.login-brand,.login-help a {color:#272c40!important}
+.login-title.MuiTypography-root {color:#272c40!important;text-shadow:0 3px 0 #272c400b}
+.login-title span,.login-eyebrow {color:#d90909!important}
+.login-subtitle.MuiTypography-root,.login-help,.back-to-studio {color:#62697b!important}
+.login-visual {background:#272c40!important;border-radius:18px!important;box-shadow:0 20px 40px #181d2e20!important}
+.login-visual:after {background:linear-gradient(180deg,#181d2ea8,#181d2e40,#181d2eee)!important}
+.login-visual-copy h2 span {color:#fff!important}
+.login-visual-copy .login-eyebrow {color:#ff6464!important}
+.login-role-hints span {background:#f4f5f8!important;color:#62697b!important;border-color:#dfe2e9!important}
+.login-form .MuiButton-contained {background:#d90909!important;color:#fff!important;border-radius:8px!important}
+.login-form .MuiButton-contained:hover {background:#b40707!important}
+.login-form .MuiInputBase-root {background:#fff!important;color:#272c40!important;border-radius:8px!important}
+[dir=rtl] .ss-page h1,[dir=rtl] .ss-page h2,[dir=rtl] .ss-page h3 {letter-spacing:0;line-height:1.5}

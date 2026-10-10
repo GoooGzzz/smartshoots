@@ -1,0 +1,96 @@
+@font-face{font-family:StudioBody;src:url('/profile/body.woff2') format('woff2');font-display:swap}
+@font-face{font-family:Jakarta;src:url('/profile/jakarta.woff2') format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:Cairo;src:url('/profile/cairo-arabic.woff2') format('woff2');font-display:swap}
+/* SMART SHOOTS agency direction: original implementation, reference palette. */
+:root { --agency-dark:#272c40; --agency-deep:#181d2e; --agency-red:#f90a0a; --agency-action:#d90909; }
+html body {
+ --ink:#272c40; --paper:#fff; --navy:#181d2e; --gold:#d90909;
+ --line:#dfe2e9; --muted:#62697b;
+ --bg:#fff; --surface:#f7f8fb; --text:#272c40; --accent:#d90909;
+ background:#fff!important; color:#272c40!important;
+ font-family:StudioBody,Arial,sans-serif;
+}
+html body.home-theme-dark {
+ --bg:#181d2e; --surface:#272c40; --text:#fff; --muted:#c3c8d7; --line:#41485c;
+}
+html body.home-theme-dark {background:#181d2e!important;color:#fff!important}
+html body .wrap {max-width:1320px}
+html body .header-shell {background:#181d2ef5!important;color:#fff!important;border-color:#ffffff20!important}
+html body .header {min-height:82px!important}
+html body .header a, html body .header button {color:#fff!important}
+html body .hero-shell {background:#272c40!important;color:#fff!important;overflow:hidden}
+html body .hero {padding-block:clamp(36px,5vw,76px)!important}
+html body .hero-layout {gap:clamp(28px,4vw,60px)!important;align-items:center}
+html body .hero-copy h1, html body .hero h1 {
+ color:#fff!important;font-size:clamp(40px,5.3vw,76px)!important;line-height:1.1!important;
+ letter-spacing:-.04em!important;text-shadow:0 3px 0 #00000020,0 18px 36px #00000025!important;
+}
+html body .hero h1 em {color:#fff!important;font-style:normal!important}
+html body .hero h1 em::after {content:"";display:block;width:72px;height:5px;background:#f90a0a;margin-top:22px}
+html body .hero-intro {color:#d7dbea!important;font-size:18px!important;line-height:1.75!important;max-width:55ch!important}
+html body .hero .quiet-link {color:#fff!important}
+html body .studio-stage {border:1px solid #ffffff22!important;border-radius:18px!important;box-shadow:0 24px 48px #00000030!important}
+html body .stage-bottom {background:linear-gradient(transparent,#181d2ee8)!important;color:#fff!important}
+html body .stage-bottom h2 {color:#fff!important;font-size:clamp(22px,2vw,30px)!important}
+html body .stage-pill {background:#181d2ed9!important;color:#fff!important;border-color:#ffffff35!important}
+html body .concept-note {color:#ccd1e0!important}
+html body .capability-strip {border-color:#ffffff22!important;color:#fff!important;padding-block:22px!important}
+html body .capability-strip span {color:#ccd1e0!important}
+html body .eyebrow, html body .mini-label {color:#d90909!important;font-weight:700!important;letter-spacing:.08em!important;font-size:12px!important}
+html body .hero .eyebrow {color:#ff6464!important}
+html body .live-dot {background:#f90a0a!important}
+html body .section, html body .experience-section {padding-block:clamp(32px,4vw,60px)!important}
+html body .section-head {gap:22px!important;margin-bottom:26px!important;align-items:flex-start}
+html body h1,html body h2,html body h3 {font-family:Jakarta,Arial,sans-serif!important;text-wrap:balance}
+html body h2 {font-size:clamp(30px,3.2vw,46px)!important;line-height:1.2!important;letter-spacing:-.025em!important;text-shadow:0 2px 0 #272c400b!important}
+html body h3 {font-size:clamp(21px,1.8vw,27px)!important;line-height:1.4!important;letter-spacing:-.015em!important}
+html body .section-head p {font-size:16px!important;line-height:1.7!important}
+html body .button.primary, html body .client-library-actions a:first-child {
+ background:#d90909!important;color:#fff!important;border:1px solid #d90909!important;
+ border-radius:8px!important;min-height:48px!important;box-shadow:0 8px 18px #d9090920!important;
+}
+html body .button.primary:hover {background:#b40707!important}
+html body .button.outline {background:transparent!important;color:inherit!important;border:1px solid #a5aabd!important;border-radius:8px!important}
+html body .service,html body .purpose-card,html body .experience-card,
+html body .client-library-card,html body .journey-panel,html body .tech-card {
+ background:#fff!important;color:#272c40!important;border:1px solid #e0e3eb!important;border-radius:16px!important;
+ box-shadow:0 5px 0 -2px #e9ebf0,0 18px 30px -22px #272c4055!important;
+}
+html body .service p,html body .purpose-card p,html body .client-library-body > p:not(.client-library-category) {color:#62697b!important}
+html body .service a {color:#c90909!important}
+html body .client-library-image {background:#f4f5f8!important;border-color:#e5e7ee!important;border-radius:12px!important}
+html body .client-library-image img {object-fit:contain!important}
+html body .client-library-body h3 {color:#272c40!important}
+html body .client-library-category {background:#fff0f0!important;color:#a80909!important;border-color:#f0caca!important}
+html body .client-library-section > h1,html body .client-library-section > h2 {color:#272c40!important}
+html body .client-library-section > p {color:#62697b!important}
+html body .signature-card .depth-copy {background:#272c40!important;color:#fff!important}
+html body .signature-card .depth-copy p {color:#d7dbea!important}
+html body .contact,html body .footer-shell {background:#181d2e!important;color:#fff!important}
+html body .contact h2,html body .footer-shell h2,html body .footer-shell h3 {color:#fff!important}
+html body .contact p,html body .footer-shell p,html body .footer-shell a {color:#d7dbea!important}
+html body .contact input,html body .contact textarea,html body .contact select {background:#fff!important;color:#272c40!important;border-color:#c5cad8!important;border-radius:8px!important}
+html body .contact .eyebrow,html body .footer-shell .eyebrow {color:#ff6464!important}
+html body .signature-wordmark {color:#fff!important}
+html body .grid {gap:22px}
+html body.light {--bg:#fff;--surface:#f7f8fb;--text:#272c40;--muted:#62697b;--line:#dfe2e9;--accent:#d90909}
+html body .card {border-radius:14px;border-color:var(--line);box-shadow:0 12px 30px #181d2e10}
+html body .category-tabs button[aria-selected=true],
+html body .category-tabs button[aria-pressed=true] {background:#d90909;color:#fff}
+html body.home-theme-dark .service,html body.home-theme-dark .purpose-card,
+html body.home-theme-dark .client-library-card {background:#272c40!important;color:#fff!important;border-color:#41485c!important}
+html body.home-theme-dark .client-library-body h3,
+html body.home-theme-dark .client-library-section > h2 {color:#fff!important}
+html body.home-theme-dark .client-library-section > p,
+html body.home-theme-dark .service p,html body.home-theme-dark .purpose-card p {color:#d7dbea!important}
+html[dir=rtl] body h1,html[dir=rtl] body h2,html[dir=rtl] body h3,
+html[dir=rtl] body .eyebrow {font-family:Cairo,Tahoma,Arial,sans-serif!important;letter-spacing:0!important;line-height:1.5!important}
+html body :focus-visible {outline:3px solid #e11919!important;outline-offset:4px}
+@media(max-width:760px){
+ html body .hero-layout {grid-template-columns:1fr!important}
+ html body .hero h1 {font-size:clamp(38px,9.5vw,58px)!important}
+ html body .hero-intro {font-size:16px!important}
+ html body .section-head {flex-wrap:wrap!important}
+ html body .hero-actions {gap:14px!important;flex-wrap:wrap}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}html body .client-library-card{transform:none!important}}
