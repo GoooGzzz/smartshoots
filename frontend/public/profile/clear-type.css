@@ -1,0 +1,44 @@
+
+@font-face{
+  font-family:ClientCairo;
+  src:url('/profile/cairo-arabic.woff2') format('woff2');
+  font-display:swap;
+}
+body{font-size:16px;line-height:1.65}
+main h1{font-size:clamp(34px,4.8vw,64px);line-height:1.15;letter-spacing:-.8px}
+main h2{font-size:clamp(26px,3vw,40px);line-height:1.25;letter-spacing:-.4px}
+main h3{font-size:clamp(19px,1.8vw,24px);line-height:1.4}
+main h1,main h2,main h3{font-weight:750;overflow-wrap:anywhere;text-wrap:balance}
+main p{line-height:1.7}
+main .eyebrow{font-size:12px;line-height:1.5;letter-spacing:1px}
+.client-library-body h3{font-size:22px;margin:0;line-height:1.45}
+.client-library-category{font-size:14px;color:#665447;line-height:1.6}
+.client-library-section>p{font-size:17px}
+html[lang=ar] body{
+  font-family:ClientCairo,Tahoma,Arial,sans-serif;
+}
+html[dir=rtl] main,
+html[dir=rtl] .client-library-section{
+  text-align:right;
+}
+html[dir=rtl] main h1,
+html[dir=rtl] main h2,
+html[dir=rtl] main h3{
+  letter-spacing:0;
+  line-height:1.5;
+}
+html[dir=rtl] main p{line-height:1.9}
+html[dir=rtl] .client-library-grid,
+html[dir=rtl] .client-library-actions{
+  direction:rtl;
+}
+.client-library-actions a{
+  line-height:1.5;
+  text-align:center;
+}
+@media(max-width:600px){
+  main h1{font-size:36px}
+  main h2{font-size:28px}
+  main h3{font-size:21px}
+  .client-library-section>p{font-size:16px}
+}
