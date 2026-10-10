@@ -1,0 +1,93 @@
+/* SMART SHOOTS: navy management and login */
+body {
+  background: #071426;
+}
+.ss-page {
+  background: #071426;
+  color: #fff;
+  border-radius: 18px;
+  padding: clamp(16px,2vw,28px);
+}
+.ss-page .MuiPaper-root,
+.ss-page .MuiCard-root,
+.ss-page .MuiTableContainer-root {
+  background: #10243e !important;
+  color: #fff !important;
+  border-color: #355271 !important;
+  border-radius: 14px;
+}
+.ss-page .MuiTypography-root,
+.ss-page .MuiTableCell-root,
+.ss-page .MuiInputLabel-root,
+.ss-page .MuiFormLabel-root,
+.ss-page .MuiFormHelperText-root,
+.ss-page .MuiButton-root,
+.ss-page .MuiIconButton-root,
+.ss-page .MuiChip-root,
+.ss-page .MuiTab-root,
+.ss-page .MuiSvgIcon-root {
+  color: #fff !important;
+}
+.ss-page .MuiTableCell-root {
+  border-color: #304866 !important;
+}
+.ss-page .MuiInputBase-root {
+  background: #0c1d33 !important;
+  color: #fff !important;
+}
+.ss-page .MuiOutlinedInput-notchedOutline {
+  border-color: #557596 !important;
+}
+.ss-page .MuiButton-containedPrimary {
+  background: #244f7b !important;
+  color: #fff !important;
+}
+.ss-page h1,
+.ss-page h2,
+.ss-page h3,
+.ss-page h4 {
+  color: #fff !important;
+  font-weight: 800;
+  text-shadow: 0 8px 20px #00000035;
+}
+.studio-login {
+  background: #071426 !important;
+  color: #fff !important;
+}
+.studio-login .MuiTypography-root,
+.studio-login .MuiInputLabel-root,
+.studio-login .MuiIconButton-root,
+.login-brand,
+.login-help,
+.login-help a,
+.back-to-studio,
+.login-eyebrow,
+.login-title span,
+.login-footer,
+.login-access-note {
+  color: #fff !important;
+}
+.login-visual {
+  background: #10243e !important;
+  border: 1px solid #355271;
+}
+.login-visual-copy h2 span,
+.login-visual-copy .login-eyebrow {
+  color: #fff !important;
+}
+.login-role-hints span {
+  background: #183b60 !important;
+  color: #fff !important;
+  border-color: #557596 !important;
+}
+.login-form .MuiInputBase-root {
+  background: #10243e !important;
+  color: #fff !important;
+}
+.login-form .MuiOutlinedInput-notchedOutline {
+  border-color: #7294b6 !important;
+}
+.login-form .MuiButton-contained {
+  background: #244f7b !important;
+  color: #fff !important;
+}
