@@ -1,0 +1,99 @@
+/* SMART SHOOTS: clear dimensional titles */
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+h1, h2, h3 {
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+h1 {
+  font-size: clamp(36px,5.8vw,80px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -.04em;
+}
+h2 {
+  font-size: clamp(28px,3.5vw,48px);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.025em;
+}
+h3 {
+  font-size: clamp(21px,2vw,28px);
+  font-weight: 750;
+  line-height: 1.35;
+  letter-spacing: -.015em;
+}
+main h1, main h2,
+.hero h1, .hero-copy h1 {
+  text-shadow:
+    0 1px 0 rgba(127,101,74,.16),
+    0 3px 0 rgba(127,101,74,.08),
+    0 10px 24px rgba(29,20,12,.12);
+}
+main h1, main h2 {
+  margin-block: 0 16px;
+}
+main h3 {
+  margin-block: 0 10px;
+}
+main p {
+  line-height: 1.7;
+}
+main p + p {
+  margin-top: 12px;
+}
+header nav a,
+nav .client-library-nav,
+.client-library-nav {
+  font-size: clamp(14px,1vw,17px);
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: .01em;
+  text-underline-offset: 6px;
+}
+header nav a:focus-visible,
+nav a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 5px;
+  border-radius: 4px;
+}
+.section-head {
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.section-head h2 {
+  margin-bottom: 10px;
+}
+.section-head p {
+  margin-block: 0;
+}
+.client-library-section > h1,
+.client-library-section > h2 {
+  font-size: clamp(34px,4.8vw,64px);
+  line-height: 1.15;
+}
+.client-library-body h3 {
+  font-size: clamp(22px,1.8vw,28px);
+  line-height: 1.35;
+  text-shadow: 0 2px 3px rgba(70,48,32,.08);
+}
+[dir=rtl] h1,
+[dir=rtl] h2,
+[dir=rtl] h3,
+[dir=rtl] nav a {
+  letter-spacing: 0;
+}
+[dir=rtl] h1 { line-height: 1.45; }
+[dir=rtl] h2 { line-height: 1.5; }
+[dir=rtl] h3,
+[dir=rtl] .client-library-body h3 { line-height: 1.6; }
+@media (max-width:600px) {
+  h1 { font-size: clamp(34px,9vw,48px); }
+  h2 { font-size: clamp(27px,7vw,36px); }
+  .section-head { margin-bottom: 18px; }
+}
+@media (forced-colors:active) {
+  h1, h2, h3 { text-shadow: none !important; }
+}
