@@ -75,21 +75,17 @@ function AppContent() {
   const theme = useMemo(() => createTheme({
     direction: isRTL ? 'rtl' : 'ltr',
     palette: {
-      mode: darkMode ? 'dark' : 'light',
+      mode: 'dark',
       // FIX/NEW: away from the generic "purple/blue-black SaaS" look -
       // warm ink + paper + a confident terracotta accent, fitting a
       // photography studio brand rather than a generic dashboard template.
-      primary: { main: '#AC482D', light: '#C66649', dark: '#803521', contrastText: '#FFFFFF' },
+      primary: { main: '#367AB8', light: '#72B1E4', dark: '#163B61', contrastText: '#FFFFFF' },
       secondary: { main: '#A17B35', light: '#C8A55D', dark: '#78591E', contrastText: '#1A1A1A' },
       success: { main: '#10B981' },
       warning: { main: '#F59E0B' },
       error: { main: '#EF4444' },
-      background: darkMode
-        ? { default: '#1E1C19', paper: '#282521' }
-        : { default: '#F5F1E8', paper: '#FFFFFF' },
-      text: darkMode
-        ? { primary: '#F5F1E8', secondary: '#C9C2B6' }
-        : { primary: '#252421', secondary: '#686259' },
+      background: { default: '#061326', paper: '#102846' },
+      text: { primary: '#FFFFFF', secondary: '#FFFFFF', disabled: '#C9D7E8' },
       divider: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(33,28,22,0.08)',
     },
     shape: { borderRadius: 8 },
@@ -184,3 +180,5 @@ function App() {
 export default App;
 import './styles/agency-management.css';
 import './styles/navy-white.css';
+
+import './styles/readability.css';

@@ -1,0 +1,8 @@
+body {background:#061326!important;color:#fff!important;}
+.MuiPaper-root,.MuiDrawer-paper,.MuiDialog-paper,.MuiPopover-paper,.MuiCard-root,.studio-login,.studio-login-panel {background-color:#102846!important;color:#fff!important;}
+.MuiTypography-root,.MuiInputBase-root,.MuiInputLabel-root,.MuiFormLabel-root,.MuiTableCell-root,.MuiMenuItem-root,.MuiListItemText-root,.MuiTab-root,.MuiChip-label,.MuiFormHelperText-root,.studio-login p,.studio-login h1,.studio-login h2,.studio-login label {color:#fff!important;}
+.MuiInputBase-input::placeholder {color:#fff!important;opacity:1!important;}
+.MuiOutlinedInput-notchedOutline {border-color:#8ba9c8!important;}
+.MuiTypography-h4,.MuiTypography-h5 {line-height:1.25!important;}
+.MuiTableCell-root {line-height:1.6!important;}
+.Mui-disabled {opacity:.65;}
