@@ -1,3 +1,4 @@
+import RecordingShare from '../components/RecordingShare';
 import InstallPortal from '../components/InstallPortal';
 import RecordingExperience from '../components/RecordingExperience';
 import React, { useEffect, useRef, useState } from 'react';
@@ -92,7 +93,7 @@ export default function DeliveryPage() {
     {loading && <LinearProgress />}
     {!loading && (client || selected || sharedView) && videos.length === 0 && <Card sx={{ p: 5, textAlign: 'center' }}><PlayCircleOutline sx={{ fontSize: 50, color: '#b28a3d' }} /><Typography variant="h6">{t('Your recordings will appear here', 'ستظهر التسجيلات هنا')}</Typography><Typography>{t('Videos become available after the studio finishes uploading them.', 'تظهر الفيديوهات بعد اكتمال رفعها من الاستوديو.')}</Typography></Card>}
     <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>{videos.map(v => <Card key={v.id} sx={{ overflow: 'hidden', bgcolor: client ? '#fff' : undefined, color: client ? '#132a44' : undefined }}>
-     <Box sx={{p:2}}><RecordingExperience recording={v} playing={playing===v.id} onPlay={()=>setPlaying(v.id)}/></Box>
+     <Box sx={{p:2}}><RecordingExperience recording={v} playing={playing===v.id} onPlay={()=>setPlaying(v.id)}/><Box sx={{mt:2}}><RecordingShare recording={v}/></Box></Box>
      <Stack spacing={1.5} sx={{ p: 3 }}><Typography variant="h6" sx={{ overflowWrap: 'anywhere' }}>{v.title}</Typography>{!client&&<Typography variant="caption" sx={{overflowWrap:'anywhere'}}>ID: {v.id}</Typography>}<Typography variant="body2">{new Date(v.created_at).toLocaleDateString(ar ? 'ar-EG' : 'en-GB')} · {sizeLabel(v.size)} {v.status === 'hidden' && t('· Hidden from client', '· مخفي عن العميل')} {!client && v.shared && t('· Shared with guests', '· مُشارك مع الضيوف')}</Typography>{!client && <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap"><Button onClick={() => shareVideo(v)}>{v.shared ? t('Remove from guest area', 'إزالة من مساحة الضيوف') : t('Share with guests', 'مشاركة مع الضيوف')}</Button><Button onClick={() => changeVideo(v)}>{v.status === 'ready' ? t('Hide recording', 'إخفاء التسجيل') : t('Publish', 'إظهار')}</Button><Button color="error" onClick={() => changeVideo(v, true)}>{t('Delete', 'حذف')}</Button></Stack>}</Stack>
     </Card>)}</Box>
     {client&&<InstallPortal/>}{client && <Typography variant="body2" sx={{ textAlign: 'center', py: 2 }}>{t('Need help? Contact SMART SHOOTS', 'تحتاج مساعدة؟ تواصل مع SMART SHOOTS')} · <a href="https://wa.me/201039331699">01039331699</a></Typography>}
