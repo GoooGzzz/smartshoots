@@ -65,3 +65,9 @@ html body:not(#ss-theme-anchor) .hero:before{background:linear-gradient(90deg,#f
 html body:not(#ss-theme-anchor) .hero:after{background:linear-gradient(0deg,#fff,transparent)!important}
 html body:not(#ss-theme-anchor) :is(.hero .wrap,.hero>div){position:relative;z-index:2}
 html body:not(#ss-theme-anchor) :is(.card,.profile-card,.client-library-card) :is(h3,p,a,span){color:#092b58!important;-webkit-text-fill-color:currentColor!important;opacity:1!important}
+html body:not(#ss-theme-anchor) :is(.white-delivery-page,.white-screening-page){background:#fff!important;color:#092b58!important}
+html body:not(#ss-theme-anchor) .white-delivery-hero{background:linear-gradient(145deg,#fff,#f0f5fc)!important;color:#092b58!important;padding:clamp(24px,4vw,48px)!important;border:1px solid #cbd9e9!important;border-radius:24px!important;box-shadow:0 3px 0 #d8e3f1,0 20px 40px -24px #153b7750!important}
+html body:not(#ss-theme-anchor) .white-delivery-hero .MuiTypography-root{color:#092b58!important;opacity:1!important;-webkit-text-fill-color:#092b58!important}
+html body:not(#ss-theme-anchor) .white-delivery-hero p{color:#355579!important;max-width:65ch;font-size:17px;line-height:1.7!important}
+html body:not(#ss-theme-anchor) .white-delivery-hero .MuiChip-root{background:#eaf1fc!important;color:#092b58!important}
+html body:not(#ss-theme-anchor) .MuiButton-contained :is(.MuiSvgIcon-root,span){color:#fff!important;-webkit-text-fill-color:#fff!important}
