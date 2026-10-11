@@ -218,7 +218,7 @@ export default function DashboardShell() {
             <Tooltip title={t('installApp')}><IconButton color="inherit" onClick={install}><InstallMobile /></IconButton></Tooltip>
           )}
           <DigitalClock />
-          <IconButton color="inherit" onClick={toggleDarkMode}>{darkMode ? <Brightness7 /> : <Brightness4 />}</IconButton>
+
           <IconButton color="inherit" onClick={toggleLanguage}><Language /></IconButton>
           <NotificationCenter />
           <IconButton color="inherit" onClick={handleLogout}><Logout /></IconButton>

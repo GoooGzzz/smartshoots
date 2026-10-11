@@ -75,7 +75,7 @@ function AppContent() {
   const theme = useMemo(() => createTheme({
     direction: isRTL ? 'rtl' : 'ltr',
     palette: {
-      mode: 'dark',
+      mode: 'light',
       // FIX/NEW: away from the generic "purple/blue-black SaaS" look -
       // warm ink + paper + a confident terracotta accent, fitting a
       // photography studio brand rather than a generic dashboard template.
@@ -84,8 +84,8 @@ function AppContent() {
       success: { main: '#10B981' },
       warning: { main: '#F59E0B' },
       error: { main: '#EF4444' },
-      background: { default: '#061326', paper: '#102846' },
-      text: { primary: '#FFFFFF', secondary: '#FFFFFF', disabled: '#C9D7E8' },
+      background: { default: '#FFFFFF', paper: '#FFFFFF' },
+      text: { primary: '#092B58', secondary: '#355579', disabled: '#637B96' },
       divider: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(33,28,22,0.08)',
     },
     shape: { borderRadius: 8 },
@@ -119,9 +119,9 @@ function AppContent() {
             // gradient-on-every-button look was part of what read as
             // "generic SaaS template" rather than a distinct brand.
             backgroundImage: 'none',
-            backgroundColor: '#803521',
+            backgroundColor: '#123F7D',
             boxShadow: '0 6px 16px -4px rgba(17,43,72, 0.45)',
-            '&:hover': { backgroundImage: 'none', backgroundColor: '#8D3923' },
+            '&:hover': { backgroundImage: 'none', backgroundColor: '#092B58' },
           },
         },
       },
@@ -178,7 +178,3 @@ function App() {
 }
 
 export default App;
-import './styles/agency-management.css';
-import './styles/navy-white.css';
-
-import './styles/readability.css';
