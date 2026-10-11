@@ -204,7 +204,7 @@ export default function DashboardShell() {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundImage: 'none', backgroundColor:'#252421' }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundImage: 'none', backgroundColor:'#FFFFFF' }}>
         <Toolbar>
           <IconButton color="inherit" edge="start" onClick={() => { if (isMobile) setMobileOpen(!mobileOpen); else setCollapsed(!collapsed); }} sx={{ mr: 2 }}>
             {isMobile ? <MenuIcon /> : (collapsed ? (isRTL ? <ChevronLeft /> : <ChevronRight />) : (isRTL ? <ChevronRight /> : <ChevronLeft />))}
@@ -274,7 +274,7 @@ export default function DashboardShell() {
             position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: (t) => t.zIndex.drawer + 2,
             display: 'flex', justifyContent: 'space-around', alignItems: 'stretch',
             pb: 'env(safe-area-inset-bottom, 0px)',
-            backgroundImage: 'none', backgroundColor:'#252421',
+            backgroundImage: 'none', backgroundColor:'#FFFFFF',
             boxShadow: '0 -6px 20px -6px rgba(0,0,0,0.4)',
           }}
         >

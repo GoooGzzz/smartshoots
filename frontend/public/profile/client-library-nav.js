@@ -6,8 +6,8 @@
     link.href='/profile/client-library/';
     link.className='client-library-nav';
     link.dataset.en='Client Library';
-    link.dataset.ar='????? ???????';
-    link.textContent=document.documentElement.lang==='ar'?'????? ???????':'Client Library';
+    link.dataset.ar='مكتبة العملاء';
+    link.textContent=document.documentElement.lang==='ar'?'مكتبة العملاء':'Client Library';
     nav.prepend(link);
   }
 })();

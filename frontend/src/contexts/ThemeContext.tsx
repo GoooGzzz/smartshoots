@@ -13,10 +13,7 @@ const ThemeContext = createContext<ThemeContextType>({
 export const useThemeMode = () => useContext(ThemeContext);
 
 export const ThemeModeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem('darkMode');
-    return saved ? JSON.parse(saved) : false;
-  });
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));

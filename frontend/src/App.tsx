@@ -1,3 +1,4 @@
+import { createAtelierTheme } from './styles/atelierTheme';
 import React, { useEffect, useMemo, Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -72,63 +73,7 @@ function AppContent() {
     document.documentElement.lang = i18n.language;
   }, [isRTL, i18n.language]);
 
-  const theme = useMemo(() => createTheme({
-    direction: isRTL ? 'rtl' : 'ltr',
-    palette: {
-      mode: 'light',
-      // FIX/NEW: away from the generic "purple/blue-black SaaS" look -
-      // warm ink + paper + a confident terracotta accent, fitting a
-      // photography studio brand rather than a generic dashboard template.
-      primary: { main: '#367AB8', light: '#72B1E4', dark: '#163B61', contrastText: '#FFFFFF' },
-      secondary: { main: '#A17B35', light: '#C8A55D', dark: '#78591E', contrastText: '#1A1A1A' },
-      success: { main: '#10B981' },
-      warning: { main: '#F59E0B' },
-      error: { main: '#EF4444' },
-      background: { default: '#FFFFFF', paper: '#FFFFFF' },
-      text: { primary: '#092B58', secondary: '#355579', disabled: '#637B96' },
-      divider: darkMode ? 'rgba(255,255,255,0.08)' : 'rgba(33,28,22,0.08)',
-    },
-    shape: { borderRadius: 8 },
-    typography: {
-      fontFamily: isRTL ? "'Cairo', Tahoma, sans-serif" : "'Plus Jakarta Sans', -apple-system, sans-serif",
-      h4: { fontWeight: 800, letterSpacing: '-0.02em' },
-      h5: { fontWeight: 700, letterSpacing: '-0.01em' },
-      h6: { fontWeight: 700 },
-      button: { fontWeight: 600, letterSpacing: '0.01em' },
-    },
-    shadows: Array(25).fill('none').map((_, i) => i === 0 ? 'none' :
-      `0 ${Math.min(i * 1.5, 24)}px ${Math.min(i * 3, 48)}px -${Math.min(i, 12)}px rgba(17,43,72,${darkMode ? 0.35 : 0.12})`,
-    ) as any,
-    components: {
-      MuiCard: {
-        styleOverrides: {
-          root: {
-            borderRadius: 18,
-            boxShadow: darkMode
-              ? '0 8px 24px -8px rgba(0,0,0,0.5)'
-              : '0 8px 24px -8px rgba(17,43,72,0.15)',
-            border: darkMode ? '1px solid rgba(255,255,255,0.06)' : '1px solid rgba(31,27,46,0.04)',
-          },
-        },
-      },
-      MuiButton: {
-        styleOverrides: {
-          root: { textTransform: 'none', fontWeight: 600, borderRadius: 10, paddingInline: 18 },
-          containedPrimary: {
-            // FIX/NEW: flat, confident color instead of a gradient - the
-            // gradient-on-every-button look was part of what read as
-            // "generic SaaS template" rather than a distinct brand.
-            backgroundImage: 'none',
-            backgroundColor: '#123F7D',
-            boxShadow: '0 6px 16px -4px rgba(17,43,72, 0.45)',
-            '&:hover': { backgroundImage: 'none', backgroundColor: '#092B58' },
-          },
-        },
-      },
-      MuiChip: { styleOverrides: { root: { fontWeight: 600 } } },
-      MuiTextField: { defaultProps: { size: 'small' } },
-    },
-  }), [darkMode, isRTL]);
+  const theme = useMemo(() => createAtelierTheme(isRTL), [isRTL]);
 
   return (
     <ThemeProvider theme={theme}>
