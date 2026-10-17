@@ -1,0 +1,62 @@
+/* SMART SHOOTS — Cinematic Dark Luxury */
+:root {
+  --bg: #070b14;
+  --bg-elevated: #0f1729;
+  --surface: #151f33;
+  --ink: #f8f4ef;
+  --muted: #a8b3c7;
+  --gold: #d4af37;
+  --gold-soft: #e8c97a;
+  --line: rgba(212, 175, 55, 0.25);
+}
+
+html, body {
+  background: var(--bg) !important;
+  color: var(--ink) !important;
+  font-family: "AtelierBody", "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Atelier", "Plus Jakarta Sans", sans-serif !important;
+  color: var(--ink) !important;
+  letter-spacing: -0.03em;
+}
+
+.gold, .accent { color: var(--gold) !important; }
+
+a { color: var(--gold-soft); }
+
+.header-shell, header, .header {
+  background: rgba(7, 11, 20, 0.85) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line) !important;
+}
+
+.button, button, .MuiButton-contained {
+  background: var(--gold) !important;
+  color: #070b14 !important;
+  border: none !important;
+  font-weight: 700;
+}
+
+.button:hover, button:hover {
+  background: var(--gold-soft) !important;
+}
+
+.card, .client-library-card, .signature-card, .MuiCard-root {
+  background: var(--surface) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--ink) !important;
+}
+
+.hero, .hero-shell {
+  background: linear-gradient(180deg, #070b14 0%, #0f1729 100%) !important;
+}
+
+img { filter: contrast(1.05) saturate(0.95); }
+
+/* Mobile */
+@media (max-width: 768px) {
+  .header { height: auto !important; padding: 12px 0; }
+  .hero-layout { grid-template-columns: 1fr !important; }
+}
