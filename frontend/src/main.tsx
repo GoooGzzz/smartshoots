@@ -8,6 +8,7 @@ import '@fontsource/plus-jakarta-sans/700.css';
 import '@fontsource/plus-jakarta-sans/800.css';
 import './styles/global.css';
 import './styles/atelier.css';
+import './styles/smartshoots-amoled-app.css';
 import './i18n';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

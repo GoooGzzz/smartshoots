@@ -1,0 +1,148 @@
+/* SMART SHOOTS — premium Super AMOLED system skin
+   Deliberately excluded from the login screen. UI-only: no workflow or API changes. */
+body:not(:has(.studio-login)) {
+  --ss-bg: #05070c;
+  --ss-panel: #0b1019;
+  --ss-panel-raised: #101827;
+  --ss-panel-hover: #131e30;
+  --ss-line: rgba(142, 170, 211, .16);
+  --ss-line-strong: rgba(64, 145, 255, .38);
+  --ss-text: #f5f8ff;
+  --ss-muted: #aab8ce;
+  --ss-blue: #398bff;
+  --ss-cyan: #5ce1ff;
+  --ss-shadow: 0 18px 55px rgba(0, 0, 0, .28);
+  background: var(--ss-bg);
+  color: var(--ss-text);
+  color-scheme: dark;
+}
+body:not(:has(.studio-login)) #root { min-height: 100vh; background: var(--ss-bg); color: var(--ss-text); }
+body:not(:has(.studio-login)) .MuiCssBaseline-root,
+body:not(:has(.studio-login)) main,
+body:not(:has(.studio-login)) .MuiContainer-root { color: var(--ss-text); }
+body:not(:has(.studio-login)) .MuiPaper-root,
+body:not(:has(.studio-login)) .MuiCard-root {
+  color: var(--ss-text);
+  background-image: none;
+  background-color: var(--ss-panel);
+  border: 1px solid var(--ss-line);
+  border-radius: 18px;
+  box-shadow: var(--ss-shadow);
+}
+body:not(:has(.studio-login)) .MuiAppBar-root {
+  background: rgba(5, 7, 12, .88);
+  color: var(--ss-text);
+  border-bottom: 1px solid var(--ss-line);
+  box-shadow: 0 8px 35px rgba(0,0,0,.18);
+  backdrop-filter: blur(18px);
+}
+body:not(:has(.studio-login)) .MuiDrawer-paper {
+  color: var(--ss-text);
+  background: #070b12;
+  border-color: var(--ss-line);
+  background-image: radial-gradient(ellipse at top left, rgba(35, 111, 235, .14), transparent 48%);
+}
+body:not(:has(.studio-login)) .MuiListItemButton-root {
+  margin: 3px 8px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  transition: background .18s ease, border-color .18s ease, transform .18s ease;
+}
+body:not(:has(.studio-login)) .MuiListItemButton-root:hover {
+  background: rgba(57,139,255,.10);
+  border-color: rgba(57,139,255,.18);
+}
+body:not(:has(.studio-login)) .MuiListItemButton-root.Mui-selected {
+  color: #fff;
+  background: linear-gradient(100deg, rgba(57,139,255,.23), rgba(57,139,255,.06));
+  border-color: rgba(57,139,255,.32);
+  box-shadow: inset 3px 0 0 var(--ss-blue);
+}
+body:not(:has(.studio-login)) .MuiTypography-root { color: inherit; }
+body:not(:has(.studio-login)) .MuiTypography-colorTextSecondary,
+body:not(:has(.studio-login)) .MuiFormHelperText-root,
+body:not(:has(.studio-login)) .MuiInputLabel-root { color: var(--ss-muted); }
+body:not(:has(.studio-login)) .MuiButton-root {
+  min-height: 38px;
+  border-radius: 11px;
+  text-transform: none;
+  font-weight: 700;
+  letter-spacing: .01em;
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+}
+body:not(:has(.studio-login)) .MuiButton-contained,
+body:not(:has(.studio-login)) .MuiButton-containedPrimary {
+  color: #fff;
+  background: linear-gradient(135deg, #398bff, #1764df);
+  box-shadow: 0 7px 22px rgba(35, 113, 255, .22);
+}
+body:not(:has(.studio-login)) .MuiButton-contained:hover {
+  background: linear-gradient(135deg, #5aa0ff, #2876f0);
+  box-shadow: 0 10px 28px rgba(35, 113, 255, .32);
+  transform: translateY(-1px);
+}
+body:not(:has(.studio-login)) .MuiButton-outlined {
+  border-color: var(--ss-line-strong);
+  color: #dceaff;
+}
+body:not(:has(.studio-login)) .MuiButton-text { color: #9ec6ff; }
+body:not(:has(.studio-login)) .MuiOutlinedInput-root,
+body:not(:has(.studio-login)) .MuiInputBase-root {
+  color: var(--ss-text);
+  background: rgba(3, 7, 14, .72);
+  border-radius: 11px;
+}
+body:not(:has(.studio-login)) .MuiOutlinedInput-notchedOutline { border-color: rgba(153,178,214,.24); }
+body:not(:has(.studio-login)) .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline { border-color: rgba(57,139,255,.62); }
+body:not(:has(.studio-login)) .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline { border-color: var(--ss-blue); border-width: 1px; }
+body:not(:has(.studio-login)) input,
+body:not(:has(.studio-login)) textarea,
+body:not(:has(.studio-login)) .MuiSelect-select { color: var(--ss-text); }
+body:not(:has(.studio-login)) input::placeholder,
+body:not(:has(.studio-login)) textarea::placeholder { color: #8292aa; opacity: 1; }
+body:not(:has(.studio-login)) .MuiTable-root { border-collapse: separate; border-spacing: 0; }
+body:not(:has(.studio-login)) .MuiTableHead-root .MuiTableCell-root {
+  color: #d8e6fb;
+  background: #0e1725;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+  border-bottom-color: var(--ss-line-strong);
+}
+body:not(:has(.studio-login)) .MuiTableCell-root { color: #e9f0fb; border-bottom-color: rgba(142,170,211,.12); }
+body:not(:has(.studio-login)) .MuiTableBody-root .MuiTableRow-root:hover { background: rgba(57,139,255,.055); }
+body:not(:has(.studio-login)) .MuiChip-root { border: 1px solid rgba(142,170,211,.18); font-weight: 700; }
+body:not(:has(.studio-login)) .MuiChip-colorPrimary { background: rgba(57,139,255,.15); color: #bcd8ff; border-color: rgba(57,139,255,.30); }
+body:not(:has(.studio-login)) .MuiTabs-indicator { height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--ss-blue), var(--ss-cyan)); }
+body:not(:has(.studio-login)) .MuiTab-root { color: #aab8ce; text-transform: none; font-weight: 700; }
+body:not(:has(.studio-login)) .MuiTab-root.Mui-selected { color: #fff; }
+body:not(:has(.studio-login)) .MuiDivider-root { border-color: var(--ss-line); }
+body:not(:has(.studio-login)) .MuiAlert-root { color: var(--ss-text); border-radius: 12px; }
+body:not(:has(.studio-login)) .MuiTooltip-tooltip { color: #fff; background: #18263a; border: 1px solid var(--ss-line-strong); }
+body:not(:has(.studio-login)) .MuiMenu-paper,
+body:not(:has(.studio-login)) .MuiPopover-paper,
+body:not(:has(.studio-login)) .MuiAutocomplete-paper {
+  color: var(--ss-text); background: #0d1420; border: 1px solid var(--ss-line-strong);
+}
+body:not(:has(.studio-login)) .MuiMenuItem-root:hover,
+body:not(:has(.studio-login)) .MuiAutocomplete-option[aria-selected="true"] { background: rgba(57,139,255,.15); }
+body:not(:has(.studio-login)) .MuiSwitch-switchBase.Mui-checked { color: var(--ss-cyan); }
+body:not(:has(.studio-login)) .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track { background-color: var(--ss-blue); }
+body:not(:has(.studio-login)) .MuiCheckbox-root.Mui-checked,
+body:not(:has(.studio-login)) .MuiRadio-root.Mui-checked { color: var(--ss-blue); }
+body:not(:has(.studio-login)) .MuiCircularProgress-root { color: var(--ss-cyan); }
+body:not(:has(.studio-login)) .MuiSkeleton-root { background-color: rgba(145,170,210,.10); }
+body:not(:has(.studio-login)) :focus-visible { outline: 2px solid var(--ss-cyan); outline-offset: 3px; }
+body:not(:has(.studio-login)) ::selection { background: rgba(57,139,255,.38); color: #fff; }
+@media (max-width: 700px) {
+  body:not(:has(.studio-login)) .MuiPaper-root,
+  body:not(:has(.studio-login)) .MuiCard-root { border-radius: 14px; }
+  body:not(:has(.studio-login)) .MuiTableContainer-root { max-width: 100%; overflow-x: auto; }
+  body:not(:has(.studio-login)) .MuiButton-root { min-height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  body:not(:has(.studio-login)) *,
+  body:not(:has(.studio-login)) *::before,
+  body:not(:has(.studio-login)) *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
