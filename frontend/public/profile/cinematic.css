@@ -1,63 +1,50 @@
-/* SMART SHOOTS — Cinematic Dark Luxury Override */
-html, body, #root, .MuiPaper-root, .MuiDrawer-paper, .MuiAppBar-root {
-  background: #070b14 !important;
+/* FORCE Cinematic Dark Luxury — high specificity */
+html body, html body *, html body #root, html body .MuiPaper-root,
+html body .MuiDrawer-paper, html body .MuiAppBar-root, html body .MuiCard-root {
+  background-color: #070b14 !important;
   background-image: none !important;
-  color: #f8f4ef !important;
-}
-
-:root {
-  --ink: #f8f4ef !important;
-  --navy: #d4af37 !important;
-  --text: #f8f4ef !important;
-  --bg: #070b14 !important;
-  --paper: #0f1729 !important;
-  --surface: #151f33 !important;
-  --muted: #a8b3c7 !important;
-  --line: rgba(212, 175, 55, 0.3) !important;
-  --accent: #d4af37 !important;
-  --gold: #d4af37 !important;
-}
-
-h1, h2, h3, h4, h5, h6, .MuiTypography-root {
   color: #f8f4ef !important;
   -webkit-text-fill-color: #f8f4ef !important;
 }
 
-a, .MuiLink-root {
+html body h1, html body h2, html body h3, html body h4, html body h5, html body h6,
+html body .MuiTypography-root {
+  color: #f8f4ef !important;
+  -webkit-text-fill-color: #f8f4ef !important;
+}
+
+html body a, html body .MuiLink-root {
   color: #e8c97a !important;
 }
 
-button, .button, .MuiButton-contained, .MuiButton-containedPrimary {
-  background: #d4af37 !important;
+html body button, html body .button, html body .MuiButton-contained,
+html body .MuiButton-containedPrimary, html body .MuiButton-root {
+  background-color: #d4af37 !important;
   background-image: none !important;
   color: #070b14 !important;
   -webkit-text-fill-color: #070b14 !important;
   border-color: #d4af37 !important;
 }
 
-.header-shell, header, .header, .login-header {
-  background: rgba(7, 11, 20, 0.92) !important;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.25) !important;
+html body .header-shell, html body header, html body .header,
+html body .login-header, html body .MuiAppBar-root {
+  background-color: rgba(7, 11, 20, 0.95) !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3) !important;
 }
 
-.card, .client-library-card, .signature-card, .service, .MuiCard-root,
-.login-form, .login-visual, .section, .experience-section {
-  background: #151f33 !important;
-  background-image: none !important;
-  border: 1px solid rgba(212, 175, 55, 0.2) !important;
-  color: #f8f4ef !important;
+html body .card, html body .client-library-card, html body .signature-card,
+html body .service, html body .MuiCard-root, html body .section {
+  background-color: #151f33 !important;
+  border: 1px solid rgba(212, 175, 55, 0.25) !important;
 }
 
-input, select, textarea, .MuiInputBase-root {
-  background: #0f1729 !important;
+html body input, html body select, html body textarea,
+html body .MuiInputBase-root, html body .MuiOutlinedInput-root {
+  background-color: #0f1729 !important;
   color: #f8f4ef !important;
   border-color: rgba(212, 175, 55, 0.4) !important;
 }
 
-.hero, .hero-shell, .hero-copy {
-  background: transparent !important;
-}
-
-@media (max-width: 768px) {
-  body { font-size: 15px; }
+html body .hero, html body .hero-shell {
+  background: linear-gradient(180deg, #070b14 0%, #0f1729 100%) !important;
 }
