@@ -1,3 +1,8 @@
+html, body, #root {
+  background: #070b14 !important;
+  color: #f8f4ef !important;
+}
+
 * {
   margin: 0;
   padding: 0;
