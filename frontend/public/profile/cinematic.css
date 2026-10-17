@@ -1,62 +1,63 @@
-/* SMART SHOOTS — Cinematic Dark Luxury */
+/* SMART SHOOTS — Cinematic Dark Luxury Override */
+html, body, #root, .MuiPaper-root, .MuiDrawer-paper, .MuiAppBar-root {
+  background: #070b14 !important;
+  background-image: none !important;
+  color: #f8f4ef !important;
+}
+
 :root {
-  --bg: #070b14;
-  --bg-elevated: #0f1729;
-  --surface: #151f33;
-  --ink: #f8f4ef;
-  --muted: #a8b3c7;
-  --gold: #d4af37;
-  --gold-soft: #e8c97a;
-  --line: rgba(212, 175, 55, 0.25);
+  --ink: #f8f4ef !important;
+  --navy: #d4af37 !important;
+  --text: #f8f4ef !important;
+  --bg: #070b14 !important;
+  --paper: #0f1729 !important;
+  --surface: #151f33 !important;
+  --muted: #a8b3c7 !important;
+  --line: rgba(212, 175, 55, 0.3) !important;
+  --accent: #d4af37 !important;
+  --gold: #d4af37 !important;
 }
 
-html, body {
-  background: var(--bg) !important;
-  color: var(--ink) !important;
-  font-family: "AtelierBody", "Plus Jakarta Sans", system-ui, sans-serif;
+h1, h2, h3, h4, h5, h6, .MuiTypography-root {
+  color: #f8f4ef !important;
+  -webkit-text-fill-color: #f8f4ef !important;
 }
 
-h1, h2, h3, h4 {
-  font-family: "Atelier", "Plus Jakarta Sans", sans-serif !important;
-  color: var(--ink) !important;
-  letter-spacing: -0.03em;
+a, .MuiLink-root {
+  color: #e8c97a !important;
 }
 
-.gold, .accent { color: var(--gold) !important; }
-
-a { color: var(--gold-soft); }
-
-.header-shell, header, .header {
-  background: rgba(7, 11, 20, 0.85) !important;
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--line) !important;
-}
-
-.button, button, .MuiButton-contained {
-  background: var(--gold) !important;
+button, .button, .MuiButton-contained, .MuiButton-containedPrimary {
+  background: #d4af37 !important;
+  background-image: none !important;
   color: #070b14 !important;
-  border: none !important;
-  font-weight: 700;
+  -webkit-text-fill-color: #070b14 !important;
+  border-color: #d4af37 !important;
 }
 
-.button:hover, button:hover {
-  background: var(--gold-soft) !important;
+.header-shell, header, .header, .login-header {
+  background: rgba(7, 11, 20, 0.92) !important;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25) !important;
 }
 
-.card, .client-library-card, .signature-card, .MuiCard-root {
-  background: var(--surface) !important;
-  border: 1px solid var(--line) !important;
-  color: var(--ink) !important;
+.card, .client-library-card, .signature-card, .service, .MuiCard-root,
+.login-form, .login-visual, .section, .experience-section {
+  background: #151f33 !important;
+  background-image: none !important;
+  border: 1px solid rgba(212, 175, 55, 0.2) !important;
+  color: #f8f4ef !important;
 }
 
-.hero, .hero-shell {
-  background: linear-gradient(180deg, #070b14 0%, #0f1729 100%) !important;
+input, select, textarea, .MuiInputBase-root {
+  background: #0f1729 !important;
+  color: #f8f4ef !important;
+  border-color: rgba(212, 175, 55, 0.4) !important;
 }
 
-img { filter: contrast(1.05) saturate(0.95); }
+.hero, .hero-shell, .hero-copy {
+  background: transparent !important;
+}
 
-/* Mobile */
 @media (max-width: 768px) {
-  .header { height: auto !important; padding: 12px 0; }
-  .hero-layout { grid-template-columns: 1fr !important; }
+  body { font-size: 15px; }
 }
